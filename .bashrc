@@ -36,8 +36,9 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
+# added eterm-color for emacs ansi-shell
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+    eterm-color|xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -122,6 +123,5 @@ alias racket='racket -l sicp -i'
 PATH=$PATH:~/.local/bin
 HISTSIZE=-1
 HISTFILESIZE=-1
-export TERM="xterm-256color"
 
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME"

@@ -72,7 +72,7 @@ set splitbelow
 set splitright
 
 " Python settings
-autocmd BufRead,BufNew *.py setlocal foldmethod=indent expandtab
+autocmd BufRead,BufNew *.py setlocal foldmethod=indent expandtab textwidth=80
 
 " C/C++
 autocmd BufRead,BufNew *.cpp,*.c,*.h setlocal tabstop=8 softtabstop=8
