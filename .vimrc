@@ -1,28 +1,5 @@
-"------------------------------------------------------------------
-" Vundle Configuration
-set nocompatible              " Vim required
-filetype off
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-	" let Vundle manage Vundle, required
-	Plugin 'VundleVim/Vundle.vim'
-	Plugin 'ycm-core/YouCompleteMe'
-	Plugin 'tpope/vim-commentary'
-	Plugin 'tpope/vim-repeat'
-
-	" All of your Plugins must be added before the following line
-call vundle#end()				" Required
-filetype plugin indent on		" Required
-"------------------------------------------------------------------
-
-" YouCompleteMe Config
-let g:ycm_confirm_extra_conf=0
-let g:ycm_autoclose_preview_window_after_completion=1
-command Doc YcmCompleter GetDoc
-command Goto YcmCompleter GoTo
+" Filetype settings
+filetype plugin indent on
 
 " Set numbers and ruler
 set number
@@ -116,3 +93,32 @@ if (IsWSL())
 	" Silence annoying bell
 	set visualbell
 endif
+
+" PLUGINS
+""------------------------------------------------------------------
+"" Vundle Configuration
+"set nocompatible              " Vim required
+"filetype off
+
+"" set the runtime path to include Vundle and initialize
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
+
+"	" let Vundle manage Vundle, required
+"	Plugin 'VundleVim/Vundle.vim'
+"	Plugin 'ycm-core/YouCompleteMe'
+"	Plugin 'tpope/vim-commentary'
+"	Plugin 'tpope/vim-repeat'
+
+"	" All of your Plugins must be added before the following line
+"call vundle#end()				" Required
+"filetype plugin indent on		" Required
+""------------------------------------------------------------------
+
+"" YouCompleteMe Config
+"let g:ycm_confirm_extra_conf=0
+"let g:ycm_autoclose_preview_window_after_completion=1
+"command Doc YcmCompleter GetDoc
+"command Goto YcmCompleter GoTo
+
+
