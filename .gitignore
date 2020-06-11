@@ -1,1 +1,5 @@
 .cfg
+.vim/*
+!.vim/colors
+!.vim/undo
+!.vim/swapfiles
