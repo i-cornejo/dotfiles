@@ -663,6 +663,9 @@ call s:HL('VimMapMod',    'dress', '', 'none')
 call s:HL('VimMapModKey', 'dress', '', 'none')
 call s:HL('VimNotation', 'dress', '', 'none')
 call s:HL('VimBracket', 'dress', '', 'none')
+call s:HL('StatusLine', 'snow', 'blackestgravel', 'none')
+call s:HL('StatusLineNC', 'snow', 'deepgravel', 'none')
+call s:HL('WildMenu', 'coal', 'snow', 'none')
 
 " }}}
 

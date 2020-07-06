@@ -63,7 +63,6 @@ autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 " Load badass theme
 colorscheme badwolf
 set background=dark
-syntax on
 
 " Set Spellcheck
 autocmd BufRead,BufNew *.txt setlocal spell
