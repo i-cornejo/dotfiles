@@ -1,7 +1,7 @@
 ;; Package Configurantion
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -16,17 +16,26 @@
   :config
   (require 'helm-config))
 
+(pdf-loader-install)
+
 ;; Org Mode
+(setq org-startup-indented t)
+(add-hook 'org-mode-hook #'visual-line-mode)
+
+(require 'org-habit)
 (require 'org-drill)
 (global-set-key (kbd "C-c c") 'org-capture)
 (setq org-default-notes-file "~/core/org/inbox.org")
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
+(global-set-key (kbd "C-c a") 'org-agenda)
 (setq org-agenda-files
-      '("~/core/org/gtd"))
+      '("~/core/org/"))
 
 (setq org-agenda-custom-commands
   '(("d" "Show scheduled study drills." agenda ""
-     ((org-agenda-files '("~/archivos_pink/autodidact/courses/notes/"))
+     ((org-agenda-files '("~/core/org/notes/"))
       (org-agenda-entry-types '(:scheduled))
       (org-agenda-start-day "nil")
       (org-agenda-span 'week)
@@ -51,6 +60,9 @@
 ;; Show trailing whitespace
 (setq show-trailing-whitespace t)
 
+;; Enable a for opening directories replacing current dired buffer
+(put 'dired-find-alternate-file 'disabled nil)
+
 ;; Disable tool bars
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -63,13 +75,11 @@
 ;; Change backup directory
 (setq backup-directory-alist '((".*" . "~/.emacs.d/backup")))
 
-;; Set docview resolution to a higher dpi (default 100)
-(setq doc-view-resolution 300)
+;; Delete files by moving them to the trash
+(setq delete-by-moving-to-trash t)
+
 ;; Set custom variables directory and load it
 (setq-default custom-file (expand-file-name ".custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
-
-;; Enable a for opening directories replacing current dired buffer
-(put 'dired-find-alternate-file 'disabled nil)
 
