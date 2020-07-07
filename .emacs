@@ -1,32 +1,83 @@
 ;; Package Configurantion
 (require 'package)
+(setq package-enable-at-startup nil)
 (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+	     '("org" . "https://orgmode.org/elpa/") t)
+;; (add-to-list 'package-archives
+;;              '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
+(require 'bind-key)
 
-(use-package helm
-  :init
-  :ensure t
-  :bind
-  ("M-x" . helm-M-x)
+(use-package ivy
   :config
-  (require 'helm-config))
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (setq ivy-re-builders-alist
+	'((t . ivy--regex-ignore-order)))
+  :bind
+  (("\C-s" . swiper)
+   ("C-c C-r" . ivy-resume)
+   ("<f6>" . ivy-resume)
+   ("C-x C-f" . counsel-find-file)
+   ("<f2> u" . counsel-unicode-char)
+   ("C-c g" . counsel-git)
+   ("C-c j" . counsel-git-grep)
+   ("C-c k" . counsel-ag)
+   ("C-x l" . counsel-locate)
+   ("C-S-o" . counsel-rhythmbox)
+   :map	minibuffer-local-map
+   ("C-r" . counsel-minibuffer-history)))
 
-(pdf-loader-install)
+(use-package counsel
+  :ensure t
+  :config
+  (counsel-mode 1)
+  (setq ivy-initial-inputs-alist nil))
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
+(use-package org-bullets
+  :ensure t
+  :defer t)
+
+(use-package pdf-tools
+  :ensure t
+  :defer t
+  :init
+  (pdf-loader-install))
+
+(use-package racket-mode
+			 :ensure t
+			 :defer t)
 
 ;; Org Mode
 (setq org-startup-indented t)
 (add-hook 'org-mode-hook #'visual-line-mode)
 
-(require 'org-habit)
-(require 'org-drill)
+(use-package org
+  :ensure org-plus-contrib
+  :pin org
+  :defer t
+  :config
+  (add-to-list 'org-modules 'org-habit t))
+
+(use-package org-drill
+  :commands (org-drill))
+
 (global-set-key (kbd "C-c c") 'org-capture)
 (setq org-default-notes-file "~/core/org/inbox.org")
-(require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 (global-set-key (kbd "C-c a") 'org-agenda)
@@ -55,6 +106,7 @@
 (set-face-attribute 'default nil :height 160)
 
 ;; Set color scheme
+(use-package monokai-theme :ensure t)
 (load-theme 'monokai t)
 
 ;; Show trailing whitespace
