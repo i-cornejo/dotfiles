@@ -1,4 +1,4 @@
-.vim/*
-!.vim/colors
-!.vim/undo
-!.vim/swapfiles
+vim/.vim/*
+!vim/.vim/colors
+!vim/.vim/undo
+!vim/.vim/swapfiles
