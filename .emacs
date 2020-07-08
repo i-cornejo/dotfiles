@@ -52,6 +52,12 @@
   :ensure t
   :defer t)
 
+(use-package magit
+  :ensure t
+  :defer t
+  :bind
+  (("C-x g" . magit-status)))
+
 (use-package pdf-tools
   :ensure t
   :defer t
@@ -59,8 +65,8 @@
   (pdf-loader-install))
 
 (use-package racket-mode
-			 :ensure t
-			 :defer t)
+  :ensure t
+  :defer t)
 
 ;; Org Mode
 (setq org-startup-indented t)
@@ -85,13 +91,13 @@
       '("~/core/org/"))
 
 (setq org-agenda-custom-commands
-  '(("d" "Show scheduled study drills." agenda ""
-     ((org-agenda-files '("~/core/org/notes/"))
-      (org-agenda-entry-types '(:scheduled))
-      (org-agenda-start-day "nil")
-      (org-agenda-span 'week)
-      (org-agenda-include-diary nil)
-      (org-agenda-show-all-dates t)))))
+      '(("d" "Show scheduled study drills."agenda ""
+	 ((org-agenda-files '("~/core/org/notes/"))
+	  (org-agenda-entry-types '(:scheduled))
+	  (org-agenda-start-day "nil")
+	  (org-agenda-span 'week)
+	  (org-agenda-include-diary nil)
+	  (org-agenda-show-all-dates t)))))
 
 (setq org-refile-targets (quote ((nil :maxlevel . 6)
                                  (org-agenda-files :maxlevel . 6))))
