@@ -124,5 +124,4 @@ PATH=$PATH:~/.local/bin
 HISTSIZE=-1
 HISTFILESIZE=-1
 
-alias dotfiles="/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME"
 alias profile_dotemacs="emacs -Q -l /home/pink/.emacs.d/profile-dotemacs.el -f profile-dotemacs"

@@ -57,6 +57,7 @@
   :defer t
   :bind
   (("C-x g" . magit-status)))
+(setq vc-follow-symlinks t)
 
 (use-package pdf-tools
   :ensure t
