@@ -2,11 +2,9 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives
 	     '("org" . "https://orgmode.org/elpa/") t)
-;; (add-to-list 'package-archives
-;;              '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -78,10 +76,8 @@
   :pin org
   :defer t
   :config
-  (add-to-list 'org-modules 'org-habit t))
-
-(use-package org-drill
-  :commands (org-drill))
+  (add-to-list 'org-modules  'org-habit t)
+  (add-to-list 'org-modules 'org-drill t))
 
 (global-set-key (kbd "C-c c") 'org-capture)
 (setq org-default-notes-file "~/core/org/inbox.org")
@@ -125,7 +121,7 @@
 ;; Disable tool bars
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(toggle-scroll-bar -1)
+(scroll-bar-mode -1)
 
 ;; Disable beeping
 (setq visible-bell t)
