@@ -80,12 +80,12 @@
   (add-to-list 'org-modules 'org-drill t))
 
 (global-set-key (kbd "C-c c") 'org-capture)
-(setq org-default-notes-file "~/core/org/inbox.org")
+(setq org-default-notes-file "~/core/org/gtd/inbox.org")
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 (setq org-agenda-files
-      '("~/core/org/"))
+      '("~/core/org/gtd/"))
 
 (setq org-agenda-custom-commands
       '(("d" "Show scheduled study drills."agenda ""
@@ -102,7 +102,7 @@
 (setq org-archive-location "~/core/org/logs/log.org::")
 
 (setq org-capture-templates
-      '(("t" "Todo" entry (file "~/org/inbox.org")
+      '(("t" "Todo" entry (file "~/org/gtd/inbox.org")
          "* TODO %?\n %i\n")))
 
 ;; Set font size
@@ -114,9 +114,6 @@
 
 ;; Show trailing whitespace
 (setq show-trailing-whitespace t)
-
-;; Enable a for opening directories replacing current dired buffer
-(put 'dired-find-alternate-file 'disabled nil)
 
 ;; Disable tool bars
 (menu-bar-mode -1)
