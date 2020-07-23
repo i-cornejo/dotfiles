@@ -60,8 +60,11 @@ autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 
-" Load badass theme
-colorscheme badwolf
+colorscheme darkblue
+" Load badass theme if not running in tty
+if has("gui running") || &term == "xterm" || &term == "xterm-256color"
+   colorscheme badwolf
+endif
 set background=dark
 
 " Set Spellcheck
