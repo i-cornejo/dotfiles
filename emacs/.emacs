@@ -16,22 +16,18 @@
 
 (use-package ivy
   :config
+  (use-package flx
+    :ensure t)
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   (setq ivy-re-builders-alist
-	'((t . ivy--regex-ignore-order)))
+	'((t . ivy--regex-fuzzy)))
   :bind
   (("\C-s" . swiper)
    ("C-c C-r" . ivy-resume)
-   ("<f6>" . ivy-resume)
    ("C-x C-f" . counsel-find-file)
-   ("<f2> u" . counsel-unicode-char)
-   ("C-c g" . counsel-git)
    ("C-c j" . counsel-git-grep)
-   ("C-c k" . counsel-ag)
-   ("C-x l" . counsel-locate)
-   ("C-S-o" . counsel-rhythmbox)
    :map	minibuffer-local-map
    ("C-r" . counsel-minibuffer-history)))
 
@@ -55,7 +51,6 @@
   :defer t
   :bind
   (("C-x g" . magit-status)))
-(setq vc-follow-symlinks t)
 
 (use-package pdf-tools
   :ensure t
@@ -108,6 +103,9 @@
       '(("t" "Todo" entry (file "~/org/gtd/inbox.org")
          "* TODO %?\n %i\n")))
 
+;; Follow symlinks to their files without asking
+(setq vc-follow-symlinks t)
+
 ;; Set font size
 (set-face-attribute 'default nil :height 160)
 
@@ -138,4 +136,5 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+;; Enable 'a' for opening file/dir in current buffer
 (put 'dired-find-alternate-file 'disabled nil)
