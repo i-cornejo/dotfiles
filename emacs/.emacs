@@ -71,6 +71,9 @@
 (setq org-startup-indented t)
 (add-hook 'org-mode-hook #'visual-line-mode)
 
+(use-package cl
+  :ensure t)
+
 (use-package org
   :ensure org-plus-contrib
   :pin org
