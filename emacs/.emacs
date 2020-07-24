@@ -114,7 +114,7 @@
 (load-theme 'monokai t)
 
 ;; Show trailing whitespace
-(setq show-trailing-whitespace t)
+(setq-default show-trailing-whitespace t)
 
 ;; Disable tool bars
 (menu-bar-mode -1)
