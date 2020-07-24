@@ -26,7 +26,8 @@
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   (setq ivy-re-builders-alist
-	'((t . ivy--regex-fuzzy)))
+	'((swiper . ivy--regex-plus)
+	  (t . ivy--regex-fuzzy)))
   :bind
   (("\C-s" . swiper)
    ("C-c C-r" . ivy-resume)
