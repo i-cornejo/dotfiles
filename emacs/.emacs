@@ -111,8 +111,9 @@
 (use-package monokai-theme)
 (load-theme 'monokai t)
 
-;; Show trailing whitespace
-(setq-default show-trailing-whitespace t)
+;; Show trailing whitespace for programming and Org
+(add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
+(add-hook 'org-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
 ;; Disable tool bars
 (menu-bar-mode -1)
