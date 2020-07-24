@@ -13,11 +13,15 @@
 (eval-when-compile
   (require 'use-package))
 (require 'bind-key)
+(require 'use-package-ensure)
+
+;; Ensure all packages are installed
+(setq use-package-always-ensure t)
 
 (use-package ivy
   :config
-  (use-package flx
-    :ensure t)
+  (use-package flx)
+  (use-package smex)
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
@@ -32,42 +36,35 @@
    ("C-r" . counsel-minibuffer-history)))
 
 (use-package counsel
-  :ensure t
   :config
   (counsel-mode 1)
   (setq ivy-initial-inputs-alist nil))
 
 (use-package which-key
-  :ensure t
   :config
   (which-key-mode))
 
 (use-package org-bullets
-  :ensure t
   :defer t)
 
 (use-package magit
-  :ensure t
   :defer t
   :bind
   (("C-x g" . magit-status)))
 
 (use-package pdf-tools
-  :ensure t
   :defer t
   :init
   (pdf-loader-install))
 
 (use-package racket-mode
-  :ensure t
   :defer t)
 
 ;; Org Mode
 (setq org-startup-indented t)
 (add-hook 'org-mode-hook #'visual-line-mode)
 
-(use-package cl
-  :ensure t)
+(use-package cl)
 
 (use-package org
   :ensure org-plus-contrib
@@ -110,7 +107,7 @@
 (set-face-attribute 'default nil :height 160)
 
 ;; Set color scheme
-(use-package monokai-theme :ensure t)
+(use-package monokai-theme)
 (load-theme 'monokai t)
 
 ;; Show trailing whitespace
