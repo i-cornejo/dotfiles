@@ -135,3 +135,4 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+(put 'dired-find-alternate-file 'disabled nil)
