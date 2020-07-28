@@ -45,9 +45,6 @@
   :config
   (which-key-mode))
 
-(use-package org-bullets
-  :defer t)
-
 (use-package magit
   :defer t
   :bind
@@ -65,15 +62,16 @@
 (setq org-startup-indented t)
 (add-hook 'org-mode-hook #'visual-line-mode)
 
-(use-package cl)
-
 (use-package org
-  :ensure org-plus-contrib
   :pin org
   :defer t
   :config
-  (add-to-list 'org-modules  'org-habit t)
-  (add-to-list 'org-modules 'org-drill t))
+  (add-to-list 'org-modules  'org-habit t))
+
+(use-package org-drill)
+
+(use-package org-bullets
+  :defer t)
 
 (global-set-key (kbd "C-c c") 'org-capture)
 (setq org-default-notes-file "~/core/org/gtd/inbox.org")
