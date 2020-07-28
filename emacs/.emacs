@@ -83,7 +83,8 @@
 
 (setq org-agenda-custom-commands
       '(("d" "Show scheduled study drills."agenda ""
-	 ((org-agenda-files '("~/core/org/notes/"))
+	 ((org-agenda-files
+	   (directory-files-recursively "~/core/learning/" org-agenda-file-regexp))
 	  (org-agenda-entry-types '(:scheduled))
 	  (org-agenda-start-day "nil")
 	  (org-agenda-span 'week)
