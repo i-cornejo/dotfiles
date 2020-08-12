@@ -29,7 +29,7 @@
 	'((swiper . ivy--regex-plus)
 	  (t . ivy--regex-fuzzy)))
   :bind
-  (("\C-s" . swiper)
+  (("C-s" . swiper)
    ("C-c C-r" . ivy-resume)
    ("C-x C-f" . counsel-find-file)
    ("C-c j" . counsel-git-grep)
@@ -40,6 +40,16 @@
   :config
   (counsel-mode 1)
   (setq ivy-initial-inputs-alist nil))
+
+(use-package ace-window
+  :bind
+  ("C-x o" . ace-window)
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  (setq aw-background nil)
+  (setq aw-reverse-frame-list t)
+  :init
+  (ace-window-display-mode t))
 
 (use-package which-key
   :config
@@ -52,6 +62,9 @@
 
 (use-package pdf-tools
   :defer t
+  :config
+  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+  (setq pdf-view-resize-factor 1.1)
   :init
   (pdf-loader-install))
 
@@ -64,6 +77,7 @@
 
 (use-package org
   :pin org
+  :ensure org-plus-contrib
   :defer t
   :config
   (add-to-list 'org-modules  'org-habit t))
