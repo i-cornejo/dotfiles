@@ -117,11 +117,11 @@ if ! shopt -oq posix; then
   fi
 fi
 
-alias rm='gio trash'
-alias video='sudo modprobe uvcvideo'
-alias racket='racket -l sicp -i'
 PATH=$PATH:~/.local/bin
 HISTSIZE=-1
 HISTFILESIZE=-1
 
+alias rm='gio trash'
+alias video='sudo modprobe uvcvideo'
+alias racket='racket -l sicp -i'
 alias profile_dotemacs="emacs -Q -l /home/pink/.emacs.d/profile-dotemacs.el -f profile-dotemacs"
