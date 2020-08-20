@@ -108,17 +108,22 @@
 (setq org-refile-targets (quote ((nil :maxlevel . 6)
                                  (org-agenda-files :maxlevel . 6))))
 
-(setq org-archive-location "~/core/org/logs/log.org::")
+(setq org-archive-location "~/core/org/gtd/inbox.org::")
 
 (setq org-capture-templates
       '(("t" "Todo" entry (file "~/org/gtd/inbox.org")
          "* TODO %?\n %i\n")))
+
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
 ;; Follow symlinks to their files without asking
 (setq vc-follow-symlinks t)
 
 ;; Set font size
 (set-face-attribute 'default nil :height 160)
+
+;; Set better resolution for DocView
+(setq doc-view-resolution 300)
 
 ;; Set color scheme
 (use-package monokai-theme)
