@@ -1,12 +1,13 @@
-;; Package Configurantion
+;;;; Package Configurantion
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
 	     '("org" . "https://orgmode.org/elpa/") t)
-(setq package-enable-at-startup nil)
 (package-initialize)
 
+;; Install and Configure Use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -14,9 +15,10 @@
   (require 'use-package))
 (require 'bind-key)
 (require 'use-package-ensure)
-
-;; Ensure all packages are installed
 (setq use-package-always-ensure t)
+
+
+;;;; Essentials
 
 (use-package ivy
   :config
@@ -48,7 +50,6 @@
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   (setq aw-background nil)
   (setq aw-reverse-frame-list t)
-  :init
   (ace-window-display-mode t))
 
 (use-package which-key
@@ -68,90 +69,83 @@
   :init
   (pdf-loader-install))
 
-(use-package racket-mode
-  :defer t)
 
-;; Org Mode
-(setq org-startup-indented t)
-(add-hook 'org-mode-hook #'visual-line-mode)
+;;;; Org Mode
 
 (use-package org
   :pin org
   :ensure org-plus-contrib
   :defer t
   :config
-  (add-to-list 'org-modules  'org-habit t))
+  (setq org-startup-indented t)
+  (setq org-default-notes-file "~/core/org/gtd/inbox.org")
+  (setq org-archive-location "~/core/org/gtd/inbox.org::")
+  (setq org-refile-targets (quote ((nil :maxlevel . 6)
+                                 (org-agenda-files :maxlevel . 6))))
+  (setq org-capture-templates
+	'(("t" "Todo" entry (file "~/org/gtd/inbox.org")
+	   "* TODO %?\n %i\n")))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+  (setq org-preview-latex-image-directory "~/.emacs.d/ltximg")
+  (add-hook 'org-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
-(use-package org-drill)
+  ;; Org agenda
+  (setq org-agenda-files '("~/core/org/gtd/"))
+  (setq org-agenda-custom-commands
+	'(("d" "Show scheduled study drills."agenda ""
+	   ((org-agenda-files
+	     (directory-files-recursively "~/core/learning/" org-agenda-file-regexp))
+	    (org-agenda-entry-types '(:scheduled))
+	    (org-agenda-span 'week)))))
 
-(use-package org-bullets
+  ;; Extra Org modules
+  (add-to-list 'org-modules  'org-habit t)
+  (use-package org-drill)
+  (use-package org-bullets
+    :hook
+     (org-mode . (lambda () (org-bullets-mode 1))))
+  :bind
+  ("C-c c" . org-capture)
+  ("C-c a" . org-agenda))
+
+
+;;;; Programming
+
+(add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
+
+
+;;; Racket
+(use-package racket-mode
   :defer t)
 
-(global-set-key (kbd "C-c c") 'org-capture)
-(setq org-default-notes-file "~/core/org/gtd/inbox.org")
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
-(global-set-key (kbd "C-c a") 'org-agenda)
-(setq org-agenda-files
-      '("~/core/org/gtd/"))
+;;;; Miscellaneous Config Options
 
-(setq org-agenda-custom-commands
-      '(("d" "Show scheduled study drills."agenda ""
-	 ((org-agenda-files
-	   (directory-files-recursively "~/core/learning/" org-agenda-file-regexp))
-	  (org-agenda-entry-types '(:scheduled))
-	  (org-agenda-start-day "nil")
-	  (org-agenda-span 'week)
-	  (org-agenda-include-diary nil)
-	  (org-agenda-show-all-dates t)))))
-
-(setq org-refile-targets (quote ((nil :maxlevel . 6)
-                                 (org-agenda-files :maxlevel . 6))))
-
-(setq org-archive-location "~/core/org/gtd/inbox.org::")
-
-(setq org-capture-templates
-      '(("t" "Todo" entry (file "~/org/gtd/inbox.org")
-         "* TODO %?\n %i\n")))
-
-(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
-
-;; Follow symlinks to their files without asking
-(setq vc-follow-symlinks t)
-
-;; Set font size
 (set-face-attribute 'default nil :height 160)
 
-;; Set better resolution for DocView
-(setq doc-view-resolution 300)
+(use-package monokai-theme
+  :config
+  (load-theme 'monokai t))
 
-;; Set color scheme
-(use-package monokai-theme)
-(load-theme 'monokai t)
-
-;; Show trailing whitespace for programming and Org
-(add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
-(add-hook 'org-mode-hook (lambda () (setq show-trailing-whitespace t)))
-
-;; Disable tool bars
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-;; Disable beeping
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
 
-;; Change backup directory
 (setq backup-directory-alist '((".*" . "~/.emacs.d/backup")))
 
-;; Delete files by moving them to the trash
 (setq delete-by-moving-to-trash t)
 
-;; Set custom variables directory and load it
+(setq require-final-newline t)
+
+(setq vc-follow-symlinks t)
+
+(put 'dired-find-alternate-file 'disabled nil)
+
+(setq doc-view-resolution 400)
+
 (setq-default custom-file (expand-file-name ".custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
-
-;; Enable 'a' for opening file/dir in current buffer
-(put 'dired-find-alternate-file 'disabled nil)
