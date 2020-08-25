@@ -16,11 +16,13 @@
 (require 'bind-key)
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
+(use-package diminish)
 
 
 ;;;; Essentials
 
 (use-package ivy
+  :diminish
   :config
   (use-package flx)
   (use-package smex)
@@ -28,9 +30,8 @@
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   (setq ivy-re-builders-alist
-	'((swiper . ivy--regex-plus)
-	  (t . ivy--regex-fuzzy)))
-  :bind
+	'((t . ivy--regex-fuzzy)))
+    :bind
   (("C-s" . swiper)
    ("C-c C-r" . ivy-resume)
    ("C-x C-f" . counsel-find-file)
@@ -39,6 +40,7 @@
    ("C-r" . counsel-minibuffer-history)))
 
 (use-package counsel
+  :diminish
   :config
   (counsel-mode 1)
   (setq ivy-initial-inputs-alist nil))
@@ -53,6 +55,7 @@
   (ace-window-display-mode t))
 
 (use-package which-key
+  :diminish
   :config
   (which-key-mode))
 
@@ -66,6 +69,7 @@
   :config
   (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
   (setq pdf-view-resize-factor 1.1)
+  (setq pdf-view-continuous nil)
   :init
   (pdf-loader-install))
 
@@ -78,6 +82,7 @@
   :defer t
   :config
   (setq org-startup-indented t)
+  (eval-after-load 'org-indent '(diminish 'org-indent-mode))
   (setq org-default-notes-file "~/core/org/gtd/inbox.org")
   (setq org-archive-location "~/core/org/gtd/inbox.org::")
   (setq org-refile-targets (quote ((nil :maxlevel . 6)
@@ -112,7 +117,15 @@
 ;;;; Programming
 
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
+(eval-after-load "eldoc" '(diminish 'eldoc-mode))
 
+;;; Python
+(use-package elpy
+  :config
+  (setq elpy-rpc-python-command "python3")
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
 
 ;;; Racket
 (use-package racket-mode
