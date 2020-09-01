@@ -1,11 +1,8 @@
-;;;; Package Configurantion
+;; Custom Settings
 
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives
-	     '("org" . "https://orgmode.org/elpa/") t)
-(package-initialize)
+(setq-default custom-file (expand-file-name ".custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 ;; Install and Configure Use-package
 (unless (package-installed-p 'use-package)
@@ -54,13 +51,14 @@
   (setq aw-reverse-frame-list t)
   (ace-window-display-mode t))
 
+(winner-mode 1)
+
 (use-package which-key
   :diminish
   :config
   (which-key-mode))
 
 (use-package magit
-  :defer t
   :bind
   (("C-x g" . magit-status)))
 
@@ -73,13 +71,13 @@
   :init
   (pdf-loader-install))
 
-
 ;;;; Org Mode
 
 (use-package org
   :pin org
   :ensure org-plus-contrib
-  :defer t
+  :hook
+  (org-mode . visual-line-mode)
   :config
   (setq org-startup-indented t)
   (eval-after-load 'org-indent '(diminish 'org-indent-mode))
@@ -91,8 +89,7 @@
 	'(("t" "Todo" entry (file "~/org/gtd/inbox.org")
 	   "* TODO %?\n %i\n")))
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
-  (setq org-preview-latex-image-directory "~/.emacs.d/ltximg")
-  (add-hook 'org-mode-hook (lambda () (setq show-trailing-whitespace t)))
+  (setq org-preview-latex-image-directory "~/.emacs.d/ltximg/")
 
   ;; Org agenda
   (setq org-agenda-files '("~/core/org/gtd/"))
@@ -108,7 +105,7 @@
   (use-package org-drill)
   (use-package org-bullets
     :hook
-     (org-mode . (lambda () (org-bullets-mode 1))))
+    (org-mode . (lambda () (org-bullets-mode 1))))
   :bind
   ("C-c c" . org-capture)
   ("C-c a" . org-agenda))
@@ -116,49 +113,114 @@
 
 ;;;; Programming
 
-(add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
+(global-set-key (kbd "M-/") 'hippie-expand)
 (eval-after-load "eldoc" '(diminish 'eldoc-mode))
+(eval-after-load "abbrev" '(diminish 'abbrev-mode))
+(setenv "VIRTUALENVWRAPPER_PYTHON" "/usr/bin/python3")
+(setenv "WORKON_HOME"
+	"/home/pink/archivos_pink/programs/python/.virtualenvs")
+
+(use-package ws-butler
+  :diminish
+  :hook
+  (prog-mode . ws-butler-mode)
+  (org-mode . ws-butler-mode))
+
+(use-package company
+  :config
+  (setq company-selection-wrap-around t)
+  (setq company-idle-delay nil)
+  :diminish
+  :bind*
+  ("C-M-i" . company-manual-begin)
+  :hook
+  (after-init . global-company-mode))
+
+(use-package flycheck
+ :defer t)
+ :config
+(setq flycheck-check-syntax-automatically '(save mode-enabled)))
+
+(use-package yasnippet
+  :diminish
+  :hook
+  (java-mode . yas-minor-mode))
+
+
+(use-package lsp-mode
+  :config
+  (setq lsp-enable-on-type-formatting nil)
+  (setq lsp-signature-auto-activate nil)
+  (setq lsp-prefer-flymake nil)
+  (use-package lsp-ivy)
+  (use-package lsp-treemacs)
+  (use-package lsp-ui
+    :config
+    (setq lsp-ui-sideline-show-code-actions nil)
+    (setq lsp-ui-doc-delay 1.5))
+  (use-package dap-mode
+    :config
+    (setq dap-auto-configure-features '(sessions locals controls)))
+  :commands
+  (lsp lsp-deferred)
+  :hook
+  (lsp-mode . lsp-enable-which-key-integration)
+  (java-mode . lsp-deferred))
 
 ;;; Python
+
 (use-package elpy
   :config
   (setq elpy-rpc-python-command "python3")
-  :defer t
+  (when (load "flycheck" t t)
+    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
+  :hook
+  (elpy-mode . (lambda () (setq company-idle-delay nil)))
+  (elpy-mode . flycheck-mode)
   :init
   (advice-add 'python-mode :before 'elpy-enable))
+
+;;; Java
+
+(use-package lsp-java
+  :defer t
+  :config
+  (use-package dap-java
+    :ensure nil))
 
 ;;; Racket
 (use-package racket-mode
   :defer t)
 
+;;; R
+
+(use-package ess
+  :config
+  (setq ess-use-flymake nil)
+  :hook
+  (ess-mode . (lambda () (flycheck-mode t)))
+  :init
+  (require 'ess-r-mode))
 
 ;;;; Miscellaneous Config Options
 
-(set-face-attribute 'default nil :height 160)
+(custom-set-faces '(trailing-whitespace ((t (:background "dim gray")))))
+(diminish 'visual-line-mode)
 
 (use-package monokai-theme
   :config
   (load-theme 'monokai t))
 
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-
-(setq visible-bell t)
-(setq ring-bell-function 'ignore)
-
-(setq backup-directory-alist '((".*" . "~/.emacs.d/backup")))
-
-(setq delete-by-moving-to-trash t)
-
-(setq require-final-newline t)
-
-(setq vc-follow-symlinks t)
+(setq visible-bell t
+      ring-bell-function 'ignore
+      backup-directory-alist
+      '((".*" . "~/.emacs.d/backup"))
+      auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t))
+      delete-old-versions t
+      delete-by-moving-to-trash t
+      require-final-newline t
+      vc-follow-symlinks nil
+      doc-view-resolution 400)
 
 (put 'dired-find-alternate-file 'disabled nil)
-
-(setq doc-view-resolution 400)
-
-(setq-default custom-file (expand-file-name ".custom.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-  (load custom-file))
