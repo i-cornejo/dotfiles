@@ -122,5 +122,3 @@ endif
 "let g:ycm_autoclose_preview_window_after_completion=1
 "command Doc YcmCompleter GetDoc
 "command Goto YcmCompleter GoTo
-
-
