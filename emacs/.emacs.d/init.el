@@ -1,3 +1,10 @@
+;;;; Package Configurantion
+
+(add-to-list 'package-archives
+	     '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives
+	     '("org" . "https://orgmode.org/elpa/") t)
+
 ;; Custom Settings
 
 (setq-default custom-file (expand-file-name ".custom.el" user-emacs-directory))
@@ -137,7 +144,7 @@
   (after-init . global-company-mode))
 
 (use-package flycheck
- :defer t)
+ :defer t
  :config
 (setq flycheck-check-syntax-automatically '(save mode-enabled)))
 

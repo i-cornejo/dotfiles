@@ -128,6 +128,5 @@ source $HOME/.local/bin/virtualenvwrapper.sh
 alias rm='gio trash'
 alias video='sudo modprobe uvcvideo'
 alias racket='racket -l sicp -i'
-alias profile_dotemacs="emacs -Q -l /home/pink/.emacs.d/profile-dotemacs.el -f profile-dotemacs"
 alias update="sudo apt update"
 alias upgrade="sudo apt upgrade -y"
