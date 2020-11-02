@@ -130,3 +130,4 @@ alias video='sudo modprobe uvcvideo'
 alias racket='racket -l sicp -i'
 alias update="sudo apt update"
 alias upgrade="sudo apt upgrade -y"
+alias batterylife="inxi -Bxxx"
