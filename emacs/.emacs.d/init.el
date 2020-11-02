@@ -78,6 +78,23 @@
   :init
   (pdf-loader-install))
 
+(use-package vterm
+  :config
+  (use-package vterm-toggle
+    :bind*
+    ([f2] . vterm-toggle))
+  (defun vterm-counsel-yank-pop-action (orig-fun &rest args)
+    (if (equal major-mode 'vterm-mode)
+	(let ((inhibit-read-only t)
+              (yank-undo-function (lambda (_start _end) (vterm-undo))))
+          (cl-letf (((symbol-function 'insert-for-yank)
+		     (lambda (str) (vterm-send-string str t))))
+            (apply orig-fun args)))
+      (apply orig-fun args)))
+  (advice-add 'counsel-yank-pop-action :around #'vterm-counsel-yank-pop-action))
+
+
+
 ;;;; Org Mode
 
 (use-package org
@@ -231,3 +248,5 @@
       doc-view-resolution 400)
 
 (put 'dired-find-alternate-file 'disabled nil)
+
+(defalias 'yes-or-no-p 'y-or-n-p)

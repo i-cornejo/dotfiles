@@ -123,7 +123,7 @@ HISTFILESIZE=-1
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export WORKON_HOME=$HOME/archivos_pink/programs/python/.virtualenvs
 export PROJECT_HOME=$HOME/archivos_pink/programs/python/
-source $HOME/.local/bin/virtualenvwrapper.sh
+source /usr/local/bin/virtualenvwrapper.sh
 
 alias rm='gio trash'
 alias video='sudo modprobe uvcvideo'
