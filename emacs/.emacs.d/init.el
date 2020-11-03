@@ -243,6 +243,7 @@
       `((".*" ,temporary-file-directory t))
       delete-old-versions t
       delete-by-moving-to-trash t
+      electric-pair-mode 1
       require-final-newline t
       vc-follow-symlinks nil
       doc-view-resolution 400)
