@@ -131,3 +131,4 @@ alias racket='racket -l sicp -i'
 alias update="sudo apt update"
 alias upgrade="sudo apt upgrade -y"
 alias batterylife="inxi -Bxxx"
+alias cleankeys="xinput disable 13; sleep 60; xinput enable 13"
