@@ -28,10 +28,10 @@
 (use-package ivy
   :diminish
   :config
+  (ivy-mode 1)
   (use-package flx)
   (use-package smex)
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
+    (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   (setq ivy-re-builders-alist
 	'((t . ivy--regex-fuzzy)))
@@ -104,14 +104,12 @@
   (org-mode . visual-line-mode)
   :config
   (setq org-startup-indented t)
+  (setq org-return-follows-link t)
   (eval-after-load 'org-indent '(diminish 'org-indent-mode))
   (setq org-default-notes-file "~/core/org/gtd/inbox.org")
   (setq org-archive-location "~/core/org/gtd/inbox.org::")
   (setq org-refile-targets (quote ((nil :maxlevel . 6)
                                  (org-agenda-files :maxlevel . 6))))
-  (setq org-capture-templates
-	'(("t" "Todo" entry (file "~/org/gtd/inbox.org")
-	   "* TODO %?\n %i\n")))
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
   (setq org-preview-latex-image-directory "~/.emacs.d/ltximg/")
 
@@ -124,6 +122,48 @@
 	    (org-agenda-entry-types '(:scheduled))
 	    (org-agenda-span 'week)))))
 
+  ;; Org Capture Templates
+  (setq org-capture-templates
+	'(("i" "Inbox" entry (file+headline "~/core/org/gtd/inbox.org" "Inbox")
+	   "* TODO %?\n %i\n")
+	("h" "Homework" entry (file+headline "~/core/org/gtd/gtd.org" "Homework")
+	   "* TODO %?\n %i\n")
+	("t" "Tasks" entry (file+headline "~/core/org/gtd/gtd.org" "Tasks")
+	   "* TODO %?\n %i\n")))
+
+
+  ;; Org Roam
+  (use-package org-roam
+    :init
+    (setq org-roam-directory "~/core/org/zettel")
+    (org-roam-mode)
+    :diminish
+    :config
+    (setq org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
+    (setq org-roam-index-file "~/core/org/zettel/index.org")
+
+    ;; Templates
+    (setq org-roam-capture-templates
+	 '(("p" "permanent" plain (function org-roam--capture-get-point)
+	    "%?"
+	    :file-name "${slug}"
+	    :head "#+title: ${title}\n"
+	    :unnarrowed t)
+	 ("c" "fleeting" plain (function org-roam--capture-get-point)
+	    "%?"
+	    :file-name "notes/%<%d%m%Y>-${slug}"
+	    :head "#+title: ${title}\n"
+	    :unnarrowed t)))
+
+
+    :bind (:map org-roam-mode-map
+		(("C-c n l" . org-roam)
+		 ("C-c n g" . org-roam-graph))
+		:map org-mode-map
+		(("C-c n i" . org-roam-insert))
+		(("C-c n I" . org-roam-insert-immediate))))
+
+
   ;; Extra Org modules
   (add-to-list 'org-modules  'org-habit t)
   (use-package org-drill)
@@ -132,7 +172,9 @@
     (org-mode . (lambda () (org-bullets-mode 1))))
   :bind
   ("C-c c" . org-capture)
-  ("C-c a" . org-agenda))
+  ("C-c a" . org-agenda)
+  ("C-c n n" . org-roam-jump-to-index)
+  ("C-c n f" . org-roam-find-file))
 
 
 ;;;; Programming
