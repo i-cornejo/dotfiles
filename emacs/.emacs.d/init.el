@@ -237,6 +237,8 @@
 
 (use-package elpy
   :config
+  (setq python-shell-interpreter "ipython3"
+	python-shell-interpreter-args "-i --simple-prompt")
   (setq elpy-rpc-python-command "python3")
   (when (load "flycheck" t t)
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
@@ -287,6 +289,7 @@
       delete-by-moving-to-trash t
       electric-pair-mode 1
       require-final-newline t
+      python-indent-guess-indent-offset-verbose nil
       vc-follow-symlinks nil
       doc-view-resolution 400)
 
