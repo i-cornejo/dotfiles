@@ -61,6 +61,7 @@ autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 
 colorscheme darkblue
+
 " Load badass theme if not running in tty
 if has("gui running") || &term == "xterm" || &term == "xterm-256color"
    colorscheme badwolf
@@ -73,52 +74,3 @@ highlight SpellBad ctermfg=red
 
 " Cool command menu completion
 set wildmenu
-
-" Special fixes for WSL
-function! IsWSL()
-	if has("unix")
-		let lines = readfile("/proc/version")
-		if lines[0] =~ "Microsoft"
-			return 1
-		endif
-	endif
-	return 0
-endfunction
-
-if (IsWSL())
-	" WSL background color erase bug
-	" https://github.com/microsoft/terminal/issues/832
-	if (&term =~ '^xterm' && &t_Co == 256)
-		  set t_ut= | set ttyscroll=1
-	endif
-
-	" Silence annoying bell
-	set visualbell
-endif
-
-" PLUGINS
-""------------------------------------------------------------------
-"" Vundle Configuration
-"set nocompatible              " Vim required
-"filetype off
-
-"" set the runtime path to include Vundle and initialize
-"set rtp+=~/.vim/bundle/Vundle.vim
-"call vundle#begin()
-
-"	" let Vundle manage Vundle, required
-"	Plugin 'VundleVim/Vundle.vim'
-"	Plugin 'ycm-core/YouCompleteMe'
-"	Plugin 'tpope/vim-commentary'
-"	Plugin 'tpope/vim-repeat'
-
-"	" All of your Plugins must be added before the following line
-"call vundle#end()				" Required
-"filetype plugin indent on		" Required
-""------------------------------------------------------------------
-
-"" YouCompleteMe Config
-"let g:ycm_confirm_extra_conf=0
-"let g:ycm_autoclose_preview_window_after_completion=1
-"command Doc YcmCompleter GetDoc
-"command Goto YcmCompleter GoTo
