@@ -151,7 +151,7 @@
 	    :unnarrowed t)
 	 ("c" "fleeting" plain (function org-roam--capture-get-point)
 	    "%?"
-	    :file-name "notes/%<%d%m%Y>-${slug}"
+	    :file-name "notes/${slug}"
 	    :head "#+title: ${title}\n"
 	    :unnarrowed t)))
 
