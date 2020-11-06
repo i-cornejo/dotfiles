@@ -44,9 +44,9 @@
  (position . 334))
 ("org-capture-last-stored"
  (filename . "~/core/org/gtd/gtd.org")
- (front-context-string . "** TODO Portafol")
+ (front-context-string . "** TODO Jairo Du")
  (rear-context-string . "2020-11-05 Thu>\n")
- (position . 684))
+ (position . 400))
 ("gtd"
  (filename . "~/core/org/gtd/gtd.org")
  (front-context-string . "* Tasks\n** TODO ")
