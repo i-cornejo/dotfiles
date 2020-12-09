@@ -31,11 +31,11 @@
   (ivy-mode 1)
   (use-package flx)
   (use-package smex)
-    (setq ivy-use-virtual-buffers t)
+  (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   (setq ivy-re-builders-alist
 	'((t . ivy--regex-fuzzy)))
-    :bind
+  :bind
   (("C-s" . swiper)
    ("C-c C-r" . ivy-resume)
    ("C-x C-f" . counsel-find-file)
@@ -106,54 +106,56 @@
   (setq org-startup-indented t)
   (setq org-return-follows-link t)
   (eval-after-load 'org-indent '(diminish 'org-indent-mode))
-  (setq org-default-notes-file "~/core/org/gtd/inbox.org")
-  (setq org-archive-location "~/core/org/gtd/inbox.org::")
+  (setq org-default-notes-file "~/org/gtd/inbox.org")
+  (setq org-archive-location "~/org/gtd/inbox.org::")
   (setq org-refile-targets (quote ((nil :maxlevel . 6)
-                                 (org-agenda-files :maxlevel . 6))))
+                                   (org-agenda-files :maxlevel . 6))))
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
   (setq org-preview-latex-image-directory "~/.emacs.d/ltximg/")
 
   ;; Org agenda
-  (setq org-agenda-files '("~/core/org/gtd/"))
+  (setq org-agenda-files '("~/org/gtd/"))
+  (setq org-log-into-drawer t)
   (setq org-agenda-custom-commands
 	'(("d" "Show scheduled study drills."agenda ""
 	   ((org-agenda-files
-	     (directory-files-recursively "~/core/learning/" org-agenda-file-regexp))
+	     (directory-files-recursively "~/Dropbox/learn/" org-agenda-file-regexp))
 	    (org-agenda-entry-types '(:scheduled))
 	    (org-agenda-span 'week)))))
 
   ;; Org Capture Templates
   (setq org-capture-templates
-	'(("i" "Inbox" entry (file+headline "~/core/org/gtd/inbox.org" "Inbox")
+	'(("i" "Inbox" entry (file "~/org/gtd/inbox.org")
 	   "* TODO %?\n %i\n")
-	("h" "Homework" entry (file+headline "~/core/org/gtd/gtd.org" "Homework")
+	  ("h" "Homework" entry (file+headline "~/org/gtd/gtd.org" "Homework")
+	   "* TODO %? :hw:\n %i\n")
+	  ("t" "Tasks" entry (file+headline "~/org/gtd/gtd.org" "Tasks")
 	   "* TODO %?\n %i\n")
-	("t" "Tasks" entry (file+headline "~/core/org/gtd/gtd.org" "Tasks")
-	   "* TODO %?\n %i\n")))
+	  ("v" "Vocabulary" entry (file "~/org/zettel/notes/vocabulary"))))
 
 
   ;; Org Roam
   (use-package org-roam
     :init
-    (setq org-roam-directory "~/core/org/zettel")
+    (setq org-roam-directory "~/org/zettel")
     (org-roam-mode)
     :diminish
     :config
     (setq org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
-    (setq org-roam-index-file "~/core/org/zettel/index.org")
+    (setq org-roam-index-file "~/org/zettel/index.org")
 
     ;; Templates
     (setq org-roam-capture-templates
-	 '(("p" "permanent" plain (function org-roam--capture-get-point)
-	    "%?"
-	    :file-name "${slug}"
-	    :head "#+title: ${title}\n"
-	    :unnarrowed t)
-	 ("c" "fleeting" plain (function org-roam--capture-get-point)
-	    "%?"
-	    :file-name "notes/${slug}"
-	    :head "#+title: ${title}\n"
-	    :unnarrowed t)))
+	  '(("p" "permanent" plain (function org-roam--capture-get-point)
+	     "%?"
+	     :file-name "${slug}"
+	     :head "#+title: ${title}\n"
+	     :unnarrowed t)
+	    ("n" "note" plain (function org-roam--capture-get-point)
+	     "%?"
+	     :file-name "notes/${slug}"
+	     :head "#+title: ${title}\n"
+	     :unnarrowed t)))
 
 
     :bind (:map org-roam-mode-map
@@ -184,7 +186,9 @@
 (eval-after-load "abbrev" '(diminish 'abbrev-mode))
 (setenv "VIRTUALENVWRAPPER_PYTHON" "/usr/bin/python3")
 (setenv "WORKON_HOME"
-	"/home/pink/archivos_pink/programs/python/.virtualenvs")
+	"/home/pink/Dropbox/programs/python/.virtualenvs")
+
+(add-hook 'prog-mode-hook (lambda() (electric-pair-local-mode 1)))
 
 (use-package ws-butler
   :diminish
@@ -197,15 +201,15 @@
   (setq company-selection-wrap-around t)
   (setq company-idle-delay nil)
   :diminish
-  :bind*
-  ("C-M-i" . company-manual-begin)
+  ;; :bind*
+  ;; ("C-M-i" . company-manual-begin)
   :hook
   (after-init . global-company-mode))
 
 (use-package flycheck
- :defer t
- :config
-(setq flycheck-check-syntax-automatically '(save mode-enabled)))
+  :defer t
+  :config
+  (setq flycheck-check-syntax-automatically '(save mode-enabled)))
 
 (use-package yasnippet
   :diminish
@@ -215,6 +219,7 @@
 
 (use-package lsp-mode
   :config
+  (setq read-process-output-max (* 1024 1024))
   (setq lsp-enable-on-type-formatting nil)
   (setq lsp-signature-auto-activate nil)
   (setq lsp-prefer-flymake nil)
@@ -233,13 +238,28 @@
   (lsp-mode . lsp-enable-which-key-integration)
   (java-mode . lsp-deferred))
 
+
+;;; Web
+
+(use-package web-mode
+  :diminish
+  :defer t
+  :hook
+  (sgml-mode . web-mode))
+
+(use-package emmet-mode
+  :defer t
+  :hook
+  (sgml-mode . emmet-mode))
+
 ;;; Python
 
 (use-package elpy
   :config
   (setq python-shell-interpreter "ipython3"
-	python-shell-interpreter-args "-i --simple-prompt")
-  (setq elpy-rpc-python-command "python3")
+	python-shell-interpreter-args "-i --simple-prompt"
+	elpy-rpc-python-command "python3"
+	python-indent-guess-indent-offset-verbose nil)
   (when (load "flycheck" t t)
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
   :hook
@@ -287,11 +307,15 @@
       `((".*" ,temporary-file-directory t))
       delete-old-versions t
       delete-by-moving-to-trash t
-      electric-pair-mode 1
       require-final-newline t
-      python-indent-guess-indent-offset-verbose nil
       vc-follow-symlinks nil
+      byte-compile-warnings '(cl-functions)
       doc-view-resolution 400)
+
+(set-fontset-font t 'symbol "Noto Color Emoji")
+(setq show-paren-delay  0)
+(setq show-paren-style 'mixed)
+(show-paren-mode)
 
 (put 'dired-find-alternate-file 'disabled nil)
 
