@@ -105,12 +105,23 @@ alias l='ls -CF'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 
+# emacs-libvterm
+vterm_printf(){
+        printf "\e]%s\e\\" "$1"
+}
+
+vterm_prompt_end(){
+    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+}
+
+PS1=$PS1'\[$(vterm_prompt_end)\]'
+
 # Personal Config
 HISTSIZE=-1
 HISTFILESIZE=-1
 
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-export WORKON_HOME=$HOME/archivos_pink/programs/python/.virtualenvs
+export WORKON_HOME=$HOME/Dropbox/programs/python/.virtualenvs
 source /usr/local/bin/virtualenvwrapper_lazy.sh
 
 alias rm='gio trash'
@@ -119,4 +130,4 @@ alias racket='racket -l sicp -i'
 alias update="sudo apt update"
 alias upgrade="sudo apt upgrade -y"
 alias batterylife="inxi -Bxxx"
-alias cleankeys="xinput disable 13; sleep 60; xinput enable 13"
+alias cleankeys="xinput disable 13; sleep 30; xinput enable 13"
