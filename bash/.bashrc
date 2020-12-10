@@ -114,7 +114,9 @@ vterm_prompt_end(){
     vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
 }
 
-PS1=$PS1'\[$(vterm_prompt_end)\]'
+if [ $TERM == "xterm-256color" ]; then
+    PS1=$PS1'\[$(vterm_prompt_end)\]'
+fi
 
 # Personal Config
 HISTSIZE=-1
