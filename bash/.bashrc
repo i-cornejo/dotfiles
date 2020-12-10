@@ -122,9 +122,7 @@ fi
 HISTSIZE=-1
 HISTFILESIZE=-1
 
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-export WORKON_HOME=$HOME/Dropbox/programs/python/.virtualenvs
-source /usr/local/bin/virtualenvwrapper_lazy.sh
+PATH=$PATH:~/.emacs.d/bin/:~/.local/bin
 
 alias rm='gio trash'
 alias video='sudo modprobe uvcvideo'
