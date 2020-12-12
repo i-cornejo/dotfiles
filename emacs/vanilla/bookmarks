@@ -1,0 +1,55 @@
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("programs"
+ (filename . "~/Dropbox/programs/")
+ (front-context-string . "C\n  drwx------  ")
+ (rear-context-string . "96 Nov  4 18:40 ")
+ (position . 218))
+("projects"
+ (filename . "~/org/gtd/projects.org")
+ (front-context-string . "* Current Projec")
+ (rear-context-string)
+ (position . 1))
+("zettel"
+ (filename . "~/org/zettel/")
+ (front-context-string . "algebra.org\n  -r")
+ (rear-context-string . "17 Nov  4 17:14 ")
+ (position . 214))
+("lists"
+ (filename . "~/org/lists/")
+ (front-context-string . "checklist.org\n  ")
+ (rear-context-string . "13 Nov  4 08:52 ")
+ (position . 213))
+("inbox"
+ (filename . "~/org/gtd/inbox.org")
+ (front-context-string . "#+STARTUP: overv")
+ (rear-context-string)
+ (position . 1))
+("habit"
+ (filename . "~/org/gtd/habit.org")
+ (front-context-string . "* TODO Morning R")
+ (rear-context-string)
+ (position . 1))
+("gtd"
+ (filename . "~/org/gtd/gtd.org")
+ (front-context-string . "#+STARTUP: overv")
+ (rear-context-string)
+ (position . 1))
+("emacs"
+ (filename . "~/.emacs.d/init.el")
+ (front-context-string . ";;;; Package Con")
+ (rear-context-string)
+ (position . 1))
+("craft"
+ (filename . "~/org/craft/")
+ (front-context-string . "poetry.org\n  -rw")
+ (rear-context-string . "92 Sep 16 16:51 ")
+ (position . 216))
+("org-capture-last-stored"
+ (filename . "~/org/zettel/notes/dudas.org")
+ (front-context-string . "#+title: dudas\n\n")
+ (rear-context-string)
+ (position . 1))
+)
