@@ -29,6 +29,12 @@
 
 (setq ivy-read-action-function #'ivy-hydra-read-action)
 
+(setq flycheck-check-syntax-automatically '(mode-enabled save))
+
+(use-package! python
+  :config
+  (set-repl-handler! 'python-mode #'+python/open-ipython-repl :persist nil))
+
 (use-package! org
   :config
   (add-to-list 'org-modules 'org-habit t)
