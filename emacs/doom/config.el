@@ -1,8 +1,5 @@
 ;;-*- lexical-binding: t -*-
 
-(setq user-full-name "Iñaki Cornejo"
-      user-mail-address "cornejodlm@gmail.com")
-
 (setq doom-font (font-spec :family "monospace" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "sans" :size 18)
       doom-unicode-font (font-spec :font  "Noto Color Emoji"))
@@ -10,6 +7,17 @@
 (setq doom-theme 'doom-molokai)
 
 (setq org-directory "~/org/")
+
+(display-time-mode 1)
+
+(display-battery-mode 1)
+
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (counsel-find-file))
+
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
 
 (setq display-line-numbers-type 'relative)
 
@@ -26,35 +34,36 @@
   (add-to-list 'org-modules 'org-habit t)
   (setq
    org-agenda-files '("~/org/gtd")
-  org-archive-location "~/org/gtd/inbox.org::"
-  org-format-latex-options (plist-put org-format-latex-options :scale 2.0)
-  org-agenda-custom-commands
-	'(("d" "Show scheduled study drills."agenda ""
-	   ((org-agenda-files
-	     (directory-files-recursively "~/learn/" org-agenda-file-regexp))
-	    (org-agenda-entry-types '(:scheduled))
-	    (org-agenda-span 'week))))
-  org-capture-templates
-	'(("i" "Inbox" entry (file "~/org/gtd/inbox.org")
-	   "* TODO %?\n %i\n")
-	  ("h" "Homework" entry (file+headline "~/org/gtd/gtd.org" "Homework")
-	   "* TODO %? :hw:\n %i\n")
-	  ("t" "Tasks" entry (file+headline "~/org/gtd/gtd.org" "Tasks")
-	   "* TODO %?\n %i\n")
-	  ("v" "Vocabulary" entry (file "~/org/zettel/notes/vocabulary")))))
+   org-archive-location "~/org/gtd/inbox.org::"
+   org-format-latex-options (plist-put org-format-latex-options :scale 2.0)
+   org-agenda-custom-commands
+   '(("d" "Show scheduled study drills."agenda ""
+      ((org-agenda-files
+	(directory-files-recursively "~/learn/" org-agenda-file-regexp))
+       (org-agenda-entry-types '(:scheduled))
+       (org-agenda-span 'week))))
+   org-capture-templates
+   '(("i" "Inbox" entry (file "~/org/gtd/inbox.org")
+      "* TODO %?\n %i\n")
+     ("h" "Homework" entry (file+headline "~/org/gtd/gtd.org" "Homework")
+      "* TODO %? :hw:\n %i\n")
+     ("t" "Tasks" entry (file+headline "~/org/gtd/gtd.org" "Tasks")
+      "* TODO %?\n %i\n")
+     ("v" "Vocabulary" entry (file "~/org/zettel/notes/vocabulary")))))
 
-(after! org-roam
-    (setq org-roam-capture-templates
-	  '(("p" "permanent" plain (function org-roam--capture-get-point)
-	     "%?"
-	     :file-name "${slug}"
-	     :head "#+title: ${title}\n"
-	     :unnarrowed t)
-	    ("n" "note" plain (function org-roam--capture-get-point)
-	     "%?"
-	     :file-name "notes/${slug}"
-	     :head "#+title: ${title}\n"
-	     :unnarrowed t))))
+(use-package! org-roam
+  :config
+  (setq org-roam-capture-templates
+	'(("p" "permanent" plain (function org-roam--capture-get-point)
+	   "%?"
+	   :file-name "${slug}"
+	   :head "#+title: ${title}\n"
+	   :unnarrowed t)
+	  ("n" "note" plain (function org-roam--capture-get-point)
+	   "%?"
+	   :file-name "notes/${slug}"
+	   :head "#+title: ${title}\n"
+	   :unnarrowed t))))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -72,3 +81,7 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;; Local Variables:
+;; byte-compile-warnings: (not free-vars)
+;; End:
