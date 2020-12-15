@@ -122,7 +122,7 @@ fi
 HISTSIZE=-1
 HISTFILESIZE=-1
 
-PATH=$PATH:~/.emacs.d/bin/:~/.local/bin
+PATH="$PATH:~/.emacs.d/bin"
 
 alias rm='gio trash'
 alias video='sudo modprobe uvcvideo'
@@ -132,4 +132,3 @@ alias upgrade="sudo apt upgrade -y"
 alias batterylife="inxi -Bxxx"
 alias cleankeys="xinput disable 13; sleep 30; xinput enable 13"
 alias python="python3"
-alias pip="pip3"
