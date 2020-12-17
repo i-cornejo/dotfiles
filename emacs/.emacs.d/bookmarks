@@ -48,8 +48,8 @@
  (rear-context-string . "92 Sep 16 16:51 ")
  (position . 216))
 ("org-capture-last-stored"
- (filename . "~/org/zettel/notes/dudas.org")
- (front-context-string . "#+title: dudas\n\n")
- (rear-context-string)
- (position . 1))
+ (filename . "~/org/gtd/inbox.org")
+ (front-context-string)
+ (rear-context-string . "* Día de Cenote\n")
+ (position . 64))
 )
