@@ -21,6 +21,7 @@
 (setq use-package-always-ensure t)
 (use-package diminish)
 
+(setq byte-compile-warnings '(cl-functions)) ; package cl is deprecated warning
 
 ;;;; Custom Settings
 
@@ -70,27 +71,33 @@
 	ivy-read-action-function #'ivy-hydra-read-action
 	ivy-initial-inputs-alist nil
 	ivy-re-builders-alist
-	'((swiper . ivy--regex-plus)
+	'((swiper-isearch . ivy--regex-ignore-order)
 	  (t . ivy--regex-fuzzy))))
-
-(use-package flx :after ivy)
-(use-package smex :after ivy)
-(use-package ivy-hydra :after ivy)
 
 (use-package counsel
   :diminish
   :bind
-  ("C-c j" . counsel-rg)
-  ("C-c i" . counsel-imenu)
+  ("C-c j j" . counsel-rg)
+  ("C-c j i" . counsel-imenu)
+  ("C-c j l" . counsel-find-library)
   :init
   (counsel-mode 1)
   :config
   (ivy-configure 'counsel-imenu
-  :update-fn 'auto))
+    :update-fn 'auto))
 
 (use-package swiper
   :bind
   ("C-s" . swiper-isearch))
+
+(use-package ivy-hydra
+  :after ivy)
+
+(use-package flx
+  :after ivy)
+
+(use-package amx
+  :after ivy)
 
 ;;; Window Management
 
@@ -155,7 +162,6 @@
   ("C-c c" . org-capture)
   ("C-c a" . org-agenda)
   :config
-  (eval-after-load 'org-indent '(diminish 'org-indent-mode))
   (setq org-startup-indented t
 	org-return-follows-link t
 	org-format-latex-options (plist-put org-format-latex-options :scale 2.0)
@@ -191,7 +197,7 @@
 (use-package org-drill :after org)
 (use-package org-bullets
   :hook
-    (org-mode . (lambda () (org-bullets-mode 1))))
+  (org-mode . (lambda () (org-bullets-mode 1))))
 
 ;;; Org Roam
 
@@ -230,13 +236,6 @@
 
 ;;;; Programming
 
-;;; Git
-
-(use-package magit
-  :bind
-  (("C-x g" . magit-status)))
-
-
 ;;; General
 
 (defvar my/programming-modes '(emacs-lisp-mode
@@ -247,14 +246,14 @@
 			       racket-mode
 			       java-mode))
 
-(setq dabbrev-check-all-buffers nil)
-(setq show-paren-delay  0)
-(setq show-paren-style 'mixed)
+(setq dabbrev-check-all-buffers nil
+      show-paren-delay  0
+      show-paren-style 'mixed)
 (show-paren-mode)
-(eval-after-load "eldoc" '(diminish 'eldoc-mode))
-(eval-after-load "abbrev" '(diminish 'abbrev-mode))
-
-(add-hook 'prog-mode-hook (lambda() (electric-pair-local-mode 1)))
+(setq-default fill-column 80)
+(add-hook 'prog-mode-hook 'auto-fill-mode)
+(add-hook 'prog-mode-hook 'electric-pair-local-mode)
+(add-hook 'after-init-hook  'global-auto-revert-mode)
 
 (use-package ws-butler
   :diminish
@@ -287,6 +286,11 @@
   (ivy-configure 'ivy-xref-show-xrefs
     :update-fn 'auto))
 
+;;; Git
+
+(use-package magit
+  :bind
+  (("C-x g" . magit-status)))
 
 ;;; LSP
 
@@ -296,9 +300,9 @@
   :commands
   (lsp lsp-deferred)
   :config
-    (setq read-process-output-max (* 1024 1024)
-	  lsp-completion-enable-additional-text-edit nil
-	  lsp-enable-on-type-formatting nil))
+  (setq read-process-output-max (* 1024 1024)
+	lsp-completion-enable-additional-text-edit nil
+	lsp-enable-on-type-formatting nil))
 
 (use-package dap-mode
   :after lsp-java
@@ -368,21 +372,16 @@
 
 ;;;; Visual Niceties
 
-(diminish 'visual-line-mode)
-
-(use-package color-theme-sanityinc-tomorrow
+(use-package spacemacs-theme
+  :defer t
   :init
-  (color-theme-sanityinc-tomorrow-eighties))
+  (load-theme 'spacemacs-dark t))
 
 (set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
 
 (setq display-time-default-load-average nil
-      display-time-format (format-time-string "%I:%M%p "))
-(display-time-mode 1)
-
-(use-package powerline
-  :init
-  (powerline-center-theme))
+      display-time-format (format-time-string " %I:%M %p "))
+(add-hook 'after-init-hook 'display-time-mode)
 
 (use-package fancy-battery
   :hook
@@ -390,18 +389,35 @@
   :config
   (setq fancy-battery-show-percentage t))
 
+(use-package minions
+  :hook
+  (after-init . minions-mode)
+  :config
+  (setq minions-mode-line-lighter "🐢"
+	minions-mode-line-delimiters nil
+	minions-direct '(flycheck-mode)))
 
-(setq visible-bell t
-      ring-bell-function 'ignore
+(use-package moody
+  :hook
+  (after-init . moody-replace-mode-line-buffer-identification)
+  (after-init . moody-replace-vc-mode)
+  :config
+  (setq x-underline-at-descent-line t))
+
+
+;;;; Miscellaneous
+
+(setq ring-bell-function 'ignore
       backup-directory-alist
       '((".*" . "~/.emacs.d/backup"))
       auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t))
       delete-old-versions t
+      load-prefer-newer t
       require-final-newline t
       vc-follow-symlinks t
-      byte-compile-warnings '(cl-functions)
-      doc-view-resolution 400)
+       doc-view-resolution 400)
 
 (put 'dired-find-alternate-file 'disabled nil)
+
 (defalias 'yes-or-no-p 'y-or-n-p)
