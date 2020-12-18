@@ -124,6 +124,16 @@ HISTFILESIZE=-1
 
 PATH="$PATH:~/.emacs.d/bin"
 
+emacs-clean(){
+    byte_compiled=$(find ~/.emacs.d/elpa -name *elc | xargs)
+    if [ -z "$byte_compiled" ]; then
+	echo "No byte compiled files found"
+    else
+	/usr/bin/rm $byte_compiled
+    fi
+}
+
+alias emacs-compile='emacs --batch --eval "(progn (package-initialize) (byte-recompile-directory \"~/.emacs.d/elpa/\" 0))"'
 alias rm='gio trash'
 alias video='sudo modprobe uvcvideo'
 alias racket='racket -l sicp -i'
