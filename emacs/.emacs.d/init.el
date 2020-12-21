@@ -1,11 +1,21 @@
-;;;; Gotta go fast
+;;;; Custom Settings
 
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6)
+(setq emacs-etc-dir "~/.emacs.d/etc/")
 
+(setq async-byte-compile-log-file  (concat emacs-etc-dir "async-bytecomp.log")
+      custom-file                  (concat emacs-etc-dir "custom.el")
+      desktop-dirname              (concat emacs-etc-dir "desktop")
+      package-quickstart-file      (concat emacs-etc-dir "package-quickstart.el")
+      shared-game-score-directory  (concat emacs-etc-dir "shared-game-score/")
+      transient-history-file       (concat emacs-etc-dir "transient/history.el")
+      transient-levels-file        (concat emacs-etc-dir "transient/levels.el")
+      transient-values-file        (concat emacs-etc-dir "transient/values.el")
+      tramp-persistency-file-name  (concat emacs-etc-dir "tramp"))
+(load custom-file t)
 
 ;;;; Package Configuration
 
+(require 'package)
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
@@ -22,11 +32,31 @@
 
 (setq byte-compile-warnings '(cl-functions)) ; package cl is deprecated warning
 
-;;;; Custom Settings
 
-(setq-default custom-file (expand-file-name ".custom.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-  (load custom-file))
+;;;; Gotta go fast
+
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6
+      idle-update-delay 1.0
+      load-prefer-newer nil
+      auto-mode-case-fold nil
+      bidi-display-reordering 'left-to-right
+      bidi-paragraph-direction 'left-to-right
+      fast-but-imprecise-scrolling t
+      initial-major-mode 'fundamental-mode) ; do not trigger prog-mode-hook
+
+(setq my/file-name-handler-alist file-name-handler-alist
+      file-name-handler-alist nil)
+
+(add-hook 'emacs-startup-hook
+	  (lambda ()
+	    (setq file-name-handler-alist my/file-name-handler-alist)))
+
+(use-package gcmh
+  :defer 3
+  :config
+  (setq gcmh-idle-delay 5
+	gcmh-high-cons-threshold (* 16 1024 1024)))
 
 
 ;;;; Essentials
@@ -34,6 +64,7 @@
 ;;; Help
 
 (use-package which-key
+  :defer 3
   :config
   (setq which-key-idle-delay 0.5)
   (which-key-mode))
@@ -51,6 +82,7 @@
 	counsel-describe-variable-function #'helpful-variable))
 
 (use-package elisp-demos
+  :defer t
   :hook
   (helpful-mode . (lambda ()
 		    (advice-add 'helpful-update
@@ -73,6 +105,7 @@
 (use-package counsel
   :bind
   ("C-x C-f" . counsel-find-file)
+  ("C-x f" . counsel-recentf)
   ("C-x r b" . counsel-bookmark)
   ("M-x" . counsel-M-x)
   ("C-c j j" . counsel-rg)
@@ -89,7 +122,20 @@
 
 (use-package ivy-hydra :defer t)
 (use-package flx :defer t)
-(use-package amx :defer t)
+(use-package amx
+  :defer t
+  :config
+  (setq amx-save-file
+	(concat emacs-etc-dir "amx-items")))
+
+(use-package recentf
+  :defer t
+  :ensure f
+  :config
+  (setq recentf-max-menu-items 100
+	recentf-max-saved-items 100
+	recentf-save-file
+	(concat emacs-etc-dir "recentf")))
 
 ;;; Window Management
 
@@ -104,13 +150,9 @@
 	aw-reverse-frame-list t
 	ace-window-display-mode t))
 
-(winner-mode)
+(add-hook 'emacs-startup-hook #'winner-mode)
 
 ;;; Utilities
-
-(use-package gcmh
-  :hook
-  (after-init . gcmh-mode))
 
 (use-package pdf-tools
   :defer t
@@ -124,6 +166,7 @@
 (use-package vterm
   :bind
   (:map vterm-mode-map
+	([f11] . nil)
 	("C-u" . vterm--self-insert)))
   
 (use-package vterm-toggle
@@ -191,9 +234,9 @@
 	   "* TODO %^{Todo} :drill:\n%?\n")
 	  ("h" "Historia" entry (file+headline "~/org/roam/notes/unam.org" "Historia Universal")
 	   "* TODO %^{Todo} :drill:\n%?\n")
-	  ("m" "México" entry (file+headline "~/org/roam/notes/unam.org" "Historia de México")
+	  ("x" "México" entry (file+headline "~/org/roam/notes/unam.org" "Historia de México")
 	   "* TODO %^{Todo} :drill:\n%?\n")
-	  ("x" "Literatura" entry (file+headline "~/org/roam/notes/unam.org" "Literatura")
+	  ("l" "Literatura" entry (file+headline "~/org/roam/notes/unam.org" "Literatura")
 	   "* TODO %^{Todo} :drill:\n%?\n")
 	  ("g" "Geografía" entry (file+headline "~/org/roam/notes/unam.org" "Geografía")
 	   "* TODO %^{Todo} :drill:\n%?\n")))
@@ -219,10 +262,11 @@
   ("C-c n n" . org-roam-jump-to-index)
   ("C-c n f" . org-roam-find-file)
   :config
-  (setq org-roam-directory "~/org/roam")
-  (org-roam-mode)
-  (setq org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
-  (setq org-roam-index-file "~/org/roam/index.org")
+  (setq org-roam-buffer-window-parameters '((no-delete-other-windows . t))
+	org-roam-index-file "~/org/roam/index.org"
+	org-roam-directory "~/org/roam"
+	org-roam-db-location (concat emacs-etc-dir "org-roam.db"))
+
 
   ;; Templates
   (setq org-roam-capture-templates
@@ -249,18 +293,11 @@
 
 ;;; General
 
-(defvar my/programming-modes '(emacs-lisp-mode
-			       c-mode
-			       c++-mode
-			       python-mode
-			       web-mode
-			       racket-mode
-			       java-mode))
-
 (setq dabbrev-check-all-buffers nil
       show-paren-delay  0
       show-paren-style 'mixed)
-(show-paren-mode)
+
+(add-hook 'emacs-startup-hook #'show-paren-mode)
 
 (setq-default fill-column 80)
 (add-hook 'prog-mode-hook 'auto-fill-mode)
@@ -276,21 +313,20 @@
   :hook
   (prog-mode . company-mode)
   :config
-  (setq company-selection-wrap-around t
-	company-global-modes my/programming-modes))
+  (setq company-selection-wrap-around t))
 
 (use-package flycheck
   :hook
   (prog-mode . flycheck-mode)
   :config
-  (setq flycheck-check-syntax-automatically '(save mode-enabled)
-	flycheck-global-modes my/programming-modes))
+  (setq flycheck-check-syntax-automatically
+	'(save mode-enabled)))
 
 (use-package ivy-xref
   :defer t
   :init
-  (setq xref-show-definitions-function #'ivy-xref-show-defs)
-  (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
+  (setq xref-show-definitions-function #'ivy-xref-show-defs
+	xref-show-xrefs-function #'ivy-xref-show-xrefs)
   :config
   (ivy-configure 'ivy-xref-show-defs
     :update-fn 'auto)
@@ -313,19 +349,23 @@
   :config
   (setq read-process-output-max (* 1024 1024)
 	lsp-completion-enable-additional-text-edit nil
-	lsp-enable-on-type-formatting nil))
+	lsp-enable-on-type-formatting nil
+	lsp-server-install-dir
+	(concat emacs-etc-dir "lsp/")))
 
 (use-package dap-mode
   :defer t
   :config
-  (setq dap-auto-configure-features '(sessions locals controls tooltip))
+  (setq dap-auto-configure-features
+	'(sessions locals controls tooltip))
   (dap-auto-configure-mode))
 
 ;;; C/C++
 
 (use-package ccls
   :config
-  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+  (setq-default flycheck-disabled-checkers
+		'(c/c++-clang c/c++-cppcheck c/c++-gcc))
   :hook
   ((c-mode c++-mode) . lsp-deferred))
 
@@ -354,14 +394,16 @@
   :config
   (setq python-shell-interpreter "ipython"
 	python-shell-interpreter-args "-i --simple-prompt"
-	pythonic-interpreter "python3"))
+	pythonic-interpreter "python3"
+	anaconda-mode-installation-directory
+	(concat emacs-etc-dir "server/")))
 
 (use-package company-anaconda
-  :defer t)
-
-(add-hook 'python-mode-hook
-	  (lambda () (add-to-list 'company-backends
-				  '(company-anaconda :with company-capf))))
+  :defer
+  :hook
+  (python-mode . (lambda () (add-to-list
+			     'company-backends
+				'(company-anaconda :with company-capf)))))
 
 ;;; Racket
 
@@ -375,30 +417,34 @@
   :config
   (setq ess-use-flymake nil))
 
-(setq initial-major-mode 'fundamental-mode) ; do not trigger prog-mode-hook
 
 ;;;; Visual Niceties
+
+(set-charset-priority 'unicode)
+(prefer-coding-system 'utf-8)
+(set-fontset-font
+ t 'symbol "Noto Color Emoji" nil 'append)
+
+(setq display-time-default-load-average nil
+      display-time-format " | %I:%M %p")
+(add-hook 'after-init-hook #'display-time-mode)
+
+(setq battery-mode-line-format "%b%p%% "
+      battery-load-critical 30)
+(add-hook 'after-init-hook #'display-battery-mode)
 
 (use-package spacemacs-theme
   :defer t
   :init
   (load-theme 'spacemacs-dark t))
 
-(set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
-
-(setq display-time-default-load-average nil
-      display-time-format " | %I:%M %p")
-(display-time-mode)
-(setq battery-mode-line-format "%b%p%% ")
-(setq battery-load-critical 30)
-(display-battery-mode)
-
 (use-package minions
-    :config
-    (setq minions-mode-line-lighter "-"
+  :hook
+  (emacs-startup . minions-mode)
+  :config
+  (setq minions-mode-line-lighter "-"
 	minions-mode-line-delimiters nil
-	minions-direct '(flycheck-mode))
-    (minions-mode))
+	minions-direct '(flycheck-mode)))
 
 (use-package moody
   :config
@@ -407,19 +453,34 @@
   (setq x-underline-at-descent-line t))
 
 
+;;;; Security for the intrepid
+
+(setq ffap-machine-p-known 'reject
+      auth-sources
+      (list (concat emacs-etc-dir "authinfo.gpg")
+			 "~/.authinfo.gpg"))
+
 ;;;; Miscellaneous
 
 (setq ring-bell-function 'ignore
-      backup-directory-alist
-      '((".*" . "~/.emacs.d/backup"))
-      auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t))
-      delete-old-versions t
-      load-prefer-newer t
       require-final-newline t
       vc-follow-symlinks t
-       doc-view-resolution 400)
-
-(put 'dired-find-alternate-file 'disabled nil)
+      doc-view-resolution 400
+      initial-scratch-message nil)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+;; Backups
+
+(setq backup-directory-alist
+      `((".*" . ,(concat emacs-etc-dir "backup")))
+      vc-make-backup-files t
+      backup-by-copying-when-linked t
+      delete-old-versions t
+      auto-save-list-file-prefix nil
+      auto-save-file-name-transforms
+      `((".*" ,(concat emacs-etc-dir "auto-saves/") t)))
+
+;; Enable functions
+
+(put 'dired-find-alternate-file 'disabled nil)
