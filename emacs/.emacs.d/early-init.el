@@ -5,3 +5,5 @@
 (push '(vertical-scroll-bars) default-frame-alist)
 (setq initial-frame-alist '((fullscreen . fullboth)))
 (set-face-attribute 'default nil :height 180)
+(if (file-exists-p "~/.emacs.d/etc/package-quickstart.el")
+    (setq package-quickstart t))
