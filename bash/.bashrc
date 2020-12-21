@@ -133,12 +133,15 @@ emacs-clean(){
     fi
 }
 
-alias emacs-compile='emacs --batch --eval "(progn (package-initialize) (byte-recompile-directory \"~/.emacs.d/elpa/\" 0))"'
+alias emacs-profile='emacs -Q -l ~/.emacs.d/bin/profile-dotemacs.el -f profile-dotemacs'
+alias emacs-compile='emacs --batch --eval\
+   	"(progn (byte-recompile-directory \"~/.emacs.d/elpa/\" 0)\
+		(package-quickstart-refresh))"'
 alias rm='gio trash'
 alias video='sudo modprobe uvcvideo'
 alias racket='racket -l sicp -i'
-alias update="sudo apt update"
-alias upgrade="sudo apt upgrade -y"
-alias batterylife="inxi -Bxxx"
-alias cleankeys="xinput disable 13; sleep 30; xinput enable 13"
-alias python="python3"
+alias update='sudo apt update'
+alias upgrade='sudo apt upgrade -y'
+alias batterylife='inxi -Bxxx'
+alias cleankeys='xinput disable 13; sleep 30; xinput enable 13'
+alias python='python3'
