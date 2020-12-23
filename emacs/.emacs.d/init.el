@@ -6,7 +6,7 @@
       custom-file                  (concat emacs-etc-dir "custom.el")
       desktop-dirname              (concat emacs-etc-dir "desktop")
       package-quickstart-file      (concat emacs-etc-dir "package-quickstart.el")
-      persist--directory-location  (concat emacs-etc-dir "persist")
+      persist--directory-location  (concat emacs-etc-dir "persist/")
       shared-game-score-directory  (concat emacs-etc-dir "shared-game-score/")
       transient-history-file       (concat emacs-etc-dir "transient/history.el")
       transient-levels-file        (concat emacs-etc-dir "transient/levels.el")
@@ -199,7 +199,8 @@
   (setq org-startup-indented t
 	org-return-follows-link t
 	org-format-latex-options (plist-put org-format-latex-options :scale 2.0)
-	org-preview-latex-image-directory "~/.emacs.d/ltximg/")
+	org-preview-latex-image-directory (concat emacs-etc-dir "ltximg")
+	org-id-locations-file (concat emacs-etc-dir "org-id-locations"))
 
   ;; Org agenda
   (setq org-agenda-files '("~/org/gtd/")
