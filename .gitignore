@@ -3,6 +3,7 @@ vim/.vim/*
 !vim/.vim/undo
 !vim/.vim/swapfiles
 
+emacs/.emacs.d/elpa/
 emacs/.emacs.d/etc/*
 !emacs/.emacs.d/etc/custom.el
 !emacs/.emacs.d/etc/persist
