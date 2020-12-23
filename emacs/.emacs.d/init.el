@@ -6,6 +6,7 @@
       custom-file                  (concat emacs-etc-dir "custom.el")
       desktop-dirname              (concat emacs-etc-dir "desktop")
       package-quickstart-file      (concat emacs-etc-dir "package-quickstart.el")
+      persist--directory-location  (concat emacs-etc-dir "persist")
       shared-game-score-directory  (concat emacs-etc-dir "shared-game-score/")
       transient-history-file       (concat emacs-etc-dir "transient/history.el")
       transient-levels-file        (concat emacs-etc-dir "transient/levels.el")
@@ -103,6 +104,7 @@
 	  (t . ivy--regex-fuzzy))))
 
 (use-package counsel
+  :defer 3
   :bind
   ("C-x C-f" . counsel-find-file)
   ("C-x f" . counsel-recentf)
@@ -223,23 +225,23 @@
 	  ("t" "Tasks" entry (file+headline "~/org/gtd/gtd.org" "Tasks")
 	   "* TODO %?\n")
 	  ("m" "Matemáticas" entry (file+headline "~/org/roam/notes/unam.org" "Matemáticas")
-	   "* TODO %^{Todo} :drill:\n%?\n")
+	   "* TODO %^{Todo}\n%^{PROMPT}\n** Back\n%?\n")
 	  ("e" "Español" entry (file+headline "~/org/roam/notes/unam.org" "Español")
-	   "* TODO %^{Todo} :drill:\n%?\n")
+	   "* TODO %^{Todo}\n%^{PROMPT}\n** Back\n%?\n")
 	  ("f" "Física" entry (file+headline "~/org/roam/notes/unam.org" "Física")
-	   "* TODO %^{Todo} :drill:\n%?\n")
+	   "* TODO %^{Todo}\n%^{PROMPT}\n** Back\n%?\n")
 	  ("q" "Química" entry (file+headline "~/org/roam/notes/unam.org" "Química")
-	   "* TODO %^{Todo} :drill:\n%?\n")
+	   "* TODO %^{Todo}\n%^{PROMPT}\n** Back\n%?\n")
 	  ("b" "Biología" entry (file+headline "~/org/roam/notes/unam.org" "Biología")
-	   "* TODO %^{Todo} :drill:\n%?\n")
+	   "* TODO %^{Todo}\n%^{PROMPT}\n** Back\n%?\n")
 	  ("h" "Historia" entry (file+headline "~/org/roam/notes/unam.org" "Historia Universal")
-	   "* TODO %^{Todo} :drill:\n%?\n")
+	   "* TODO %^{Todo}\n%^{PROMPT}\n** Back\n%?\n")
 	  ("x" "México" entry (file+headline "~/org/roam/notes/unam.org" "Historia de México")
-	   "* TODO %^{Todo} :drill:\n%?\n")
+	   "* TODO %^{Todo}\n%^{PROMPT}\n** Back\n%?\n")
 	  ("l" "Literatura" entry (file+headline "~/org/roam/notes/unam.org" "Literatura")
-	   "* TODO %^{Todo} :drill:\n%?\n")
+	   "* TODO %^{Todo}\n%^{PROMPT}\n** Back\n%?\n")
 	  ("g" "Geografía" entry (file+headline "~/org/roam/notes/unam.org" "Geografía")
-	   "* TODO %^{Todo} :drill:\n%?\n")))
+	   "* TODO %^{Todo}\n%^{PROMPT}\n** Back\n%?\n")))
 
   ;; Extra Org modules
   (add-to-list 'org-modules  'org-habit t))
@@ -247,9 +249,17 @@
 (use-package org-plus-contrib
   :defer t)
 
-(use-package org-drill
-  :commands
-  (org-drill))
+(use-package org-fc
+  :load-path "~/.emacs.d/site-lisp/org-fc"
+  :bind
+  ("C-c f" . org-fc-hydra/body)
+  :config
+  (setq org-fc-directories '("~/org/")
+	org-fc-review-history-file
+	(concat persist--directory-location "org-fc-reviews.tsv"))
+	(require 'org-fc-hydra))
+
+
 
 (use-package org-bullets
   :hook
