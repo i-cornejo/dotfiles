@@ -49,7 +49,7 @@
  (position . 216))
 ("org-capture-last-stored"
  (filename . "~/org/roam/notes/unam.org")
- (front-context-string . "** TODO pais    ")
- (rear-context-string . "ra\n\n* Geografía\n")
- (position . 207))
+ (front-context-string . "** TODO Iniciaci")
+ (rear-context-string . "as borbónicas*.\n")
+ (position . 11152))
 )

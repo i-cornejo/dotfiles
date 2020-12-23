@@ -134,9 +134,7 @@ emacs-clean(){
 }
 
 alias emacs-profile='emacs -Q -l ~/.emacs.d/bin/profile-dotemacs.el -f profile-dotemacs'
-alias emacs-compile='emacs --batch --eval\
-   	"(progn (byte-recompile-directory \"~/.emacs.d/elpa/\" 0)\
-		(package-quickstart-refresh))"'
+alias emacs-compile='emacs --batch --eval "(byte-recompile-directory \"~/.emacs.d/elpa/\" 0)"'
 alias rm='gio trash'
 alias video='sudo modprobe uvcvideo'
 alias racket='racket -l sicp -i'
