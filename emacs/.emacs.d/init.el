@@ -34,17 +34,17 @@
 (setq byte-compile-warnings '(cl-functions)) ; package cl is deprecated warning
 
 
-;;;; Gotta go fast
+;;;; Gotta go fast - Taken from Doom Emacs
 
 (setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6
       idle-update-delay 1.0
       load-prefer-newer nil
       auto-mode-case-fold nil
-      bidi-display-reordering 'left-to-right
-      bidi-paragraph-direction 'left-to-right
       fast-but-imprecise-scrolling t
       initial-major-mode 'fundamental-mode) ; do not trigger prog-mode-hook
+
+(setq-default bidi-display-reordering 'left-to-right
+	      bidi-paragraph-direction 'left-to-right)
 
 (setq my/file-name-handler-alist file-name-handler-alist
       file-name-handler-alist nil)
