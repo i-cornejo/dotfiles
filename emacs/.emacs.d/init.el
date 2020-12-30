@@ -1,19 +1,3 @@
-;;;; Custom Settings
-
-(setq emacs-etc-dir "~/.emacs.d/etc/")
-
-(setq async-byte-compile-log-file  (concat emacs-etc-dir "async-bytecomp.log")
-      custom-file                  (concat emacs-etc-dir "custom.el")
-      desktop-dirname              (concat emacs-etc-dir "desktop")
-      package-quickstart-file      (concat emacs-etc-dir "package-quickstart.el")
-      persist--directory-location  (concat emacs-etc-dir "persist/")
-      shared-game-score-directory  (concat emacs-etc-dir "shared-game-score/")
-      transient-history-file       (concat emacs-etc-dir "transient/history.el")
-      transient-levels-file        (concat emacs-etc-dir "transient/levels.el")
-      transient-values-file        (concat emacs-etc-dir "transient/values.el")
-      tramp-persistency-file-name  (concat emacs-etc-dir "tramp"))
-(load custom-file t)
-
 ;;;; Package Configuration
 
 (require 'package)
@@ -33,6 +17,10 @@
 
 (setq byte-compile-warnings '(cl-functions)) ; package cl is deprecated warning
 
+(use-package no-littering)
+
+(setq custom-file (no-littering-expand-etc-file-name "custom.el"))
+(load custom-file t)
 
 ;;;; Gotta go fast - Taken from Doom Emacs
 
@@ -125,19 +113,16 @@
 (use-package ivy-hydra :defer t)
 (use-package flx :defer t)
 (use-package amx
-  :defer t
-  :config
-  (setq amx-save-file
-	(concat emacs-etc-dir "amx-items")))
+  :defer t)
 
 (use-package recentf
   :defer t
   :ensure f
   :config
   (setq recentf-max-menu-items 100
-	recentf-max-saved-items 100
-	recentf-save-file
-	(concat emacs-etc-dir "recentf")))
+	recentf-max-saved-items 100)
+  (add-to-list 'recentf-exclude no-littering-var-directory
+	       'recentf-exclude no-littering-etc-directory))
 
 ;;; Window Management
 
@@ -170,7 +155,7 @@
   (:map vterm-mode-map
 	([f11] . nil)
 	("C-u" . vterm--self-insert)))
-  
+
 (use-package vterm-toggle
   :bind*
   ([f2] . vterm-toggle)
@@ -198,9 +183,7 @@
   :config
   (setq org-startup-indented t
 	org-return-follows-link t
-	org-format-latex-options (plist-put org-format-latex-options :scale 2.0)
-	org-preview-latex-image-directory (concat emacs-etc-dir "ltximg")
-	org-id-locations-file (concat emacs-etc-dir "org-id-locations"))
+	org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
   ;; Org agenda
   (setq org-agenda-files '("~/org/gtd/")
@@ -208,13 +191,7 @@
 	org-log-into-drawer t
 	org-refile-targets (quote ((nil :maxlevel . 3)
                                    (org-agenda-files :maxlevel . 3)
-				   ("~/org/roam/notes/UNAM" :tag . "UNAM")))
-	org-agenda-custom-commands
-	'(("d" "Show scheduled study drills."agenda ""
-	   ((org-agenda-files
-	     (directory-files-recursively "~/org/roam/notes/" org-agenda-file-regexp))
-	    (org-agenda-entry-types '(:scheduled))
-	    (org-agenda-span 'week)))))
+				   ("~/org/roam/notes/UNAM" :tag . "UNAM"))))
 
   ;; Org Capture Templates
   (setq org-default-notes-file "~/org/gtd/inbox.org"
@@ -250,17 +227,8 @@
 (use-package org-plus-contrib
   :defer t)
 
-(use-package org-fc
-  :load-path "~/.emacs.d/site-lisp/org-fc"
-  :bind
-  ("C-c f" . org-fc-hydra/body)
-  :config
-  (setq org-fc-directories '("~/org/")
-	org-fc-review-history-file
-	(concat persist--directory-location "org-fc-reviews.tsv"))
-	(require 'org-fc-hydra))
-
-
+(use-package org-pomodoro
+  :defer t)
 
 (use-package org-bullets
   :hook
@@ -275,8 +243,7 @@
   :config
   (setq org-roam-buffer-window-parameters '((no-delete-other-windows . t))
 	org-roam-index-file "~/org/roam/index.org"
-	org-roam-directory "~/org/roam"
-	org-roam-db-location (concat emacs-etc-dir "org-roam.db"))
+	org-roam-directory "~/org/roam")
 
 
   ;; Templates
@@ -296,9 +263,16 @@
 	      (("C-c n l" . org-roam)
 	       ("C-c n g" . org-roam-graph))
 	      :map org-mode-map
-	      (("C-c n i" . org-roam-insert))
-	      (("C-c n I" . org-roam-insert-immediate))))
+	      (("C-c n i" . org-roam-insert-immediate))))
 
+(use-package deft
+  :bind
+  ("C-c n d" . deft)
+  :custom
+  (deft-recursive t)
+  (deft-use-filter-string-for-filename t)
+  (deft-default-extension "org")
+  (deft-directory "~/org/roam/"))
 
 ;;;; Programming
 
@@ -333,6 +307,11 @@
   (setq flycheck-check-syntax-automatically
 	'(save mode-enabled)))
 
+(use-package yasnippet
+  :defer t
+  :config
+  (yas-minor-mode))
+
 (use-package ivy-xref
   :defer t
   :init
@@ -355,14 +334,14 @@
 (use-package lsp-mode
   :hook
   (lsp-mode . lsp-enable-which-key-integration)
+  (python-mode . lsp-deferred)
   :commands
   (lsp lsp-deferred)
   :config
   (setq read-process-output-max (* 1024 1024)
 	lsp-completion-enable-additional-text-edit nil
 	lsp-enable-on-type-formatting nil
-	lsp-server-install-dir
-	(concat emacs-etc-dir "lsp/")))
+	lsp-keep-workspace-alive nil))
 
 (use-package dap-mode
   :defer t
@@ -398,23 +377,13 @@
 
 ;;; Python
 
-(use-package anaconda-mode
-  :hook
-  (python-mode . anaconda-mode)
-  (python-mode . anaconda-eldoc-mode)
+(use-package python
+  :defer t
   :config
   (setq python-shell-interpreter "ipython"
-	python-shell-interpreter-args "-i --simple-prompt"
-	pythonic-interpreter "python3"
-	anaconda-mode-installation-directory
-	(concat emacs-etc-dir "server/")))
+	python-shell-interpreter-args "-i --simple-prompt"))
 
-(use-package company-anaconda
-  :defer
-  :hook
-  (python-mode . (lambda () (add-to-list
-			     'company-backends
-				'(company-anaconda :with company-capf)))))
+(setq python-indent-guess-indent-offset-verbose nil)
 
 ;;; Racket
 
@@ -466,10 +435,7 @@
 
 ;;;; Security for the intrepid
 
-(setq ffap-machine-p-known 'reject
-      auth-sources
-      (list (concat emacs-etc-dir "authinfo.gpg")
-			 "~/.authinfo.gpg"))
+(setq ffap-machine-p-known 'reject)
 
 ;;;; Miscellaneous
 
@@ -484,13 +450,13 @@
 ;; Backups
 
 (setq backup-directory-alist
-      `((".*" . ,(concat emacs-etc-dir "backup")))
+      `((".*" . ,(no-littering-expand-var-file-name "backup/")))
       vc-make-backup-files t
       backup-by-copying-when-linked t
       delete-old-versions t
       auto-save-list-file-prefix nil
       auto-save-file-name-transforms
-      `((".*" ,(concat emacs-etc-dir "auto-saves/") t)))
+      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
 ;; Enable functions
 
