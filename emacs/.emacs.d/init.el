@@ -461,3 +461,11 @@
 ;; Enable functions
 
 (put 'dired-find-alternate-file 'disabled nil)
+
+;; Custom functions
+
+(defun my/days-count ()
+  "Show remaining days and weeks until event"
+  (interactive)
+  (let ((days-remaining (org-time-stamp-to-now "<2021-02-20 Thu>")))
+    (message (format "Days: %d - Weeks: %d" days-remaining (ceiling (/ days-remaining 7.0))))))
