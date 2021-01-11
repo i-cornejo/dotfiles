@@ -89,6 +89,7 @@
 	ivy-initial-inputs-alist nil
 	ivy-re-builders-alist
 	'((swiper-isearch . ivy--regex-ignore-order)
+	  (counsel-rg . ivy--regex-ignore-order)
 	  (t . ivy--regex-fuzzy))))
 
 (use-package counsel
@@ -225,8 +226,8 @@
   :config
   (setq org-roam-buffer-window-parameters '((no-delete-other-windows . t))
 	org-roam-index-file "~/org/roam/index.org"
+	org-roam-db-location (no-littering-expand-var-file-name "org-roam.db")
 	org-roam-directory "~/org/roam")
-
 
   ;; Templates
   (setq org-roam-capture-templates
@@ -319,6 +320,9 @@
   (python-mode . lsp-deferred)
   :commands
   (lsp lsp-deferred)
+  :bind
+  (:map lsp-mode-map
+	("M-?" . lsp-find-references))
   :config
   (setq read-process-output-max (* 1024 1024)
 	lsp-completion-enable-additional-text-edit nil
