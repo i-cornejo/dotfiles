@@ -2,7 +2,20 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("programs"
+(("UNAM"
+ (filename . "~/Dropbox/zukunft/guia_UNAM.pdf")
+ (position . 1)
+ (page . 15)
+ (slice)
+ (size . 1.401035673187572)
+ (origin 0.0 . 0.021872265966754158)
+ (handler . pdf-view-bookmark-jump-handler))
+("fun"
+ (filename . "~/org/lists/fun.org")
+ (front-context-string . "* Myself\n** Read")
+ (rear-context-string)
+ (position . 1))
+("programs"
  (filename . "~/Dropbox/programs/")
  (front-context-string . "C\n  drwx------  ")
  (rear-context-string . "96 Nov  4 18:40 ")
@@ -48,8 +61,8 @@
  (rear-context-string . "92 Sep 16 16:51 ")
  (position . 216))
 ("org-capture-last-stored"
- (filename . "~/org/roam/notes/unam.org")
- (front-context-string . "** Maximato     ")
- (rear-context-string . "lardo Rodríguez\n")
- (position . 71852))
+ (filename . "~/org/gtd/gtd.org")
+ (front-context-string . "** TODO Edit ank")
+ (rear-context-string . "2021-01-11 Mon>\n")
+ (position . 776))
 )
