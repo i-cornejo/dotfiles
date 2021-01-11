@@ -367,9 +367,13 @@
   :defer t
   :config
   (setq python-shell-interpreter "ipython"
-	python-shell-interpreter-args "-i --simple-prompt"))
+	python-shell-interpreter-args "-i --simple-prompt"
+	python-indent-guess-indent-offset-verbose nil))
 
-(setq python-indent-guess-indent-offset-verbose nil)
+(use-package pyvenv
+  :defer t
+  :hook
+  (python-mode . pyvenv-mode))
 
 ;;; Racket
 
