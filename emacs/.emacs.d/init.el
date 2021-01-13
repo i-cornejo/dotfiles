@@ -394,6 +394,7 @@
 (prefer-coding-system 'utf-8)
 (set-fontset-font
  t 'symbol "Noto Color Emoji" nil 'append)
+(set-face-attribute 'vc-state-base nil :foreground "sky blue")
 
 (setq display-time-default-load-average nil
       display-time-format " | %I:%M %p")
@@ -403,10 +404,9 @@
       battery-load-critical 30)
 (add-hook 'after-init-hook #'display-battery-mode)
 
-(use-package spacemacs-theme
-  :defer t
+(use-package monokai-theme
   :init
-  (load-theme 'spacemacs-dark t))
+  (load-theme 'monokai))
 
 (use-package minions
   :hook
@@ -415,13 +415,6 @@
   (setq minions-mode-line-lighter "-"
 	minions-mode-line-delimiters nil
 	minions-direct '(flycheck-mode)))
-
-(use-package moody
-  :config
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode)
-  (setq x-underline-at-descent-line t))
-
 
 ;;;; Security for the intrepid
 
