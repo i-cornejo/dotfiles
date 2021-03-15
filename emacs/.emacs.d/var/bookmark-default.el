@@ -2,7 +2,22 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("UNAM"
+(("pillars"
+ (filename . "~/org/gtd/pillars.org")
+ (front-context-string . "* Qué es lo que ")
+ (rear-context-string . " mayores metas?\n")
+ (position . 59))
+("notes"
+ (filename . "~/org/roam/notes/")
+ (front-context-string . "ableton.org\n  -r")
+ (rear-context-string . "50 Dec 24 10:11 ")
+ (position . 213))
+("org-refile-last-stored"
+ (filename . "~/org/gtd/gtd.org")
+ (front-context-string . "** TODO Dinero v")
+ (rear-context-string . "2021-01-14 Thu>\n")
+ (position . 177))
+("UNAM"
  (filename . "~/Dropbox/zukunft/guia_UNAM.pdf")
  (position . 1)
  (page . 15)
@@ -25,11 +40,6 @@
  (front-context-string . "* Current Projec")
  (rear-context-string)
  (position . 1))
-("zettel"
- (filename . "~/org/zettel/")
- (front-context-string . "algebra.org\n  -r")
- (rear-context-string . "17 Nov  4 17:14 ")
- (position . 214))
 ("lists"
  (filename . "~/org/lists/")
  (front-context-string . "checklist.org\n  ")
@@ -62,7 +72,7 @@
  (position . 216))
 ("org-capture-last-stored"
  (filename . "~/org/gtd/gtd.org")
- (front-context-string . "** TODO Edit ank")
- (rear-context-string . "2021-01-11 Mon>\n")
- (position . 776))
+ (front-context-string . "** TODO Ingresar")
+ (rear-context-string . "2021-03-26 Fri>\n")
+ (position . 213))
 )

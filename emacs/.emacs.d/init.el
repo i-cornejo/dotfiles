@@ -183,6 +183,7 @@
   ("C-c a" . org-agenda)
   :config
   (setq org-startup-indented t
+	org-startup-with-inline-images t
 	org-return-follows-link t
 	org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
@@ -444,11 +445,3 @@
 ;; Enable functions
 
 (put 'dired-find-alternate-file 'disabled nil)
-
-;; Custom functions
-
-(defun my/days-count ()
-  "Show remaining days and weeks until event"
-  (interactive)
-  (let ((days-remaining (org-time-stamp-to-now "<2021-02-20 Thu>")))
-    (message (format "Days: %d - Weeks: %d" days-remaining (ceiling (/ days-remaining 7.0))))))
