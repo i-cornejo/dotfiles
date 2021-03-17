@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("pillars"
+(("life"
+ (filename . "~/org/life/")
+ (front-context-string . "future.org\n  -rw")
+ (rear-context-string . "22 Mar 16 13:00 ")
+ (position . 210))
+("craft"
+ (filename . "~/org/craft/")
+ (front-context-string . "letters.org\n  -r")
+ (rear-context-string . "10 Mar 15 20:38 ")
+ (position . 211))
+("pillars"
  (filename . "~/org/gtd/pillars.org")
  (front-context-string . "* Qué es lo que ")
  (rear-context-string . " mayores metas?\n")
@@ -65,14 +75,9 @@
  (front-context-string . ";;;; Package Con")
  (rear-context-string)
  (position . 1))
-("craft"
- (filename . "~/org/craft/")
- (front-context-string . "poetry.org\n  -rw")
- (rear-context-string . "92 Sep 16 16:51 ")
- (position . 216))
 ("org-capture-last-stored"
  (filename . "~/org/gtd/gtd.org")
- (front-context-string . "** TODO Ingresar")
- (rear-context-string . "2021-03-26 Fri>\n")
- (position . 213))
+ (front-context-string . "** TODO Checar s")
+ (rear-context-string . "2021-03-17 Wed>\n")
+ (position . 417))
 )
