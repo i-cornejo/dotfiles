@@ -1,5 +1,6 @@
 " Filetype settings
 filetype plugin indent on
+syntax on
 
 " Set numbers and ruler
 set number
@@ -60,17 +61,15 @@ autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 
-colorscheme darkblue
 
 " Load badass theme if not running in tty
 if has("gui running") || &term == "xterm" || &term == "xterm-256color"
-   colorscheme badwolf
+   colorscheme molokai
+else
+	colorscheme darkblue
 endif
-set background=dark
 
-" Set Spellcheck
-autocmd BufRead,BufNew *.txt setlocal spell
-highlight SpellBad ctermfg=red
+set background=dark
 
 " Cool command menu completion
 set wildmenu
