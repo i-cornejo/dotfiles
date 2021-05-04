@@ -15,45 +15,23 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-(setq byte-compile-warnings '(cl-functions)) ; package cl is deprecated warning
-
 (use-package no-littering)
-
 (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
 (load custom-file t)
 
-;;;; Gotta go fast - Taken from Doom Emacs
+(setq byte-compile-warnings '(cl-functions)) ; package cl is deprecated warning
 
-(setq gc-cons-threshold most-positive-fixnum
-      idle-update-delay 1.0
-      load-prefer-newer nil
-      auto-mode-case-fold nil
-      fast-but-imprecise-scrolling t
-      initial-major-mode 'fundamental-mode) ; do not trigger prog-mode-hook
-
-(setq-default bidi-display-reordering 'left-to-right
-	      bidi-paragraph-direction 'left-to-right)
-
-(setq my/file-name-handler-alist file-name-handler-alist
-      file-name-handler-alist nil)
-
-(add-hook 'emacs-startup-hook
-	  (lambda ()
-	    (setq file-name-handler-alist my/file-name-handler-alist)))
+(setq gc-cons-threshold most-positive-fixnum)
 
 (use-package gcmh
-  :defer 3
   :config
   (setq gcmh-idle-delay 5
 	gcmh-high-cons-threshold (* 16 1024 1024)))
 
-
 ;;;; Essentials
 
 ;;; Help
-
 (use-package which-key
-  :defer 3
   :config
   (setq which-key-idle-delay 0.5)
   (which-key-mode))
@@ -71,16 +49,13 @@
 	counsel-describe-variable-function #'helpful-variable))
 
 (use-package elisp-demos
-  :defer t
   :hook
   (helpful-mode . (lambda ()
 		    (advice-add 'helpful-update
 				:after #'elisp-demos-advice-helpful-update))))
 
 ;;; General Completion
-
 (use-package ivy
-  :defer t
   :config
   (ivy-mode)
   (setq ivy-use-virtual-buffers t
@@ -93,7 +68,6 @@
 	  (t . ivy--regex-fuzzy))))
 
 (use-package counsel
-  :defer 3
   :bind
   ("C-x C-f" . counsel-find-file)
   ("C-x f" . counsel-recentf)
@@ -111,11 +85,6 @@
   :bind
   ("C-s" . swiper-isearch))
 
-(use-package ivy-hydra :defer t)
-(use-package flx :defer t)
-(use-package amx
-  :defer t)
-
 (use-package recentf
   :defer t
   :ensure f
@@ -124,9 +93,11 @@
 	recentf-max-saved-items 100)
   (add-to-list 'recentf-exclude no-littering-var-directory
 	       'recentf-exclude no-littering-etc-directory))
+(use-package ivy-hydra)
+(use-package flx)
+(use-package amx)
 
 ;;; Window Management
-
 (use-package ace-window
   :bind
   ("M-o" . ace-window)
@@ -138,12 +109,14 @@
 	aw-reverse-frame-list t
 	ace-window-display-mode t))
 
+(use-package transpose-frame
+  :bind
+  ("M-c" . transpose-frame))
+
 (add-hook 'emacs-startup-hook #'winner-mode)
 
 ;;; Utilities
-
 (use-package pdf-tools
-  :defer t
   :config
   (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
   (setq pdf-view-resize-factor 1.1)
@@ -155,7 +128,10 @@
   :bind
   (:map vterm-mode-map
 	([f11] . nil)
-	("C-u" . vterm--self-insert)))
+	("C-u" . vterm--self-insert)
+	("M-c" . nil)
+	("C-M-v" . nil)
+	("C-S-M-v" . nil)))
 
 (use-package vterm-toggle
   :bind*
@@ -172,17 +148,19 @@
       (apply orig-fun args)))
   (advice-add 'counsel-yank-pop-action :around #'vterm-counsel-yank-pop-action))
 
-;;;; Org Mode
+(global-set-key (kbd "C-c j m") 'woman)
 
+;;;; Org Mode
 (use-package org
   :pin org
+  :ensure org-plus-contrib
   :hook
   (org-mode . visual-line-mode)
   :bind
   ("C-c c" . org-capture)
   ("C-c a" . org-agenda)
   :config
-  (setq org-startup-indented t
+(setq org-startup-indented t
 	org-startup-with-inline-images t
 	org-return-follows-link t
 	org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
@@ -208,18 +186,16 @@
   ;; Extra Org modules
   (add-to-list 'org-modules  'org-habit t))
 
-(use-package org-plus-contrib
-  :defer t)
-
-(use-package org-pomodoro
-  :defer t)
-
 (use-package org-bullets
   :hook
   (org-mode . org-bullets-mode))
 
-;;; Org Roam
+(use-package org-pomodoro
+  :bind
+  ("C-c n p" . org-pomodoro))
+(use-package sound-wav)
 
+;;; Org Roam
 (use-package org-roam
   :bind
   ("C-c n n" . org-roam-jump-to-index)
@@ -261,7 +237,6 @@
 ;;;; Programming
 
 ;;; General
-
 (setq dabbrev-check-all-buffers nil
       show-paren-delay  0
       show-paren-style 'mixed)
@@ -292,12 +267,10 @@
 	'(save mode-enabled)))
 
 (use-package yasnippet
-  :defer t
   :config
   (yas-minor-mode))
 
 (use-package ivy-xref
-  :defer t
   :init
   (setq xref-show-definitions-function #'ivy-xref-show-defs
 	xref-show-xrefs-function #'ivy-xref-show-xrefs)
@@ -308,17 +281,14 @@
     :update-fn 'auto))
 
 ;;; Git
-
 (use-package magit
   :bind
   (("C-x g" . magit-status)))
 
 ;;; LSP
-
 (use-package lsp-mode
   :hook
   (lsp-mode . lsp-enable-which-key-integration)
-  (python-mode . lsp-deferred)
   :commands
   (lsp lsp-deferred)
   :bind
@@ -331,14 +301,12 @@
 	lsp-keep-workspace-alive nil))
 
 (use-package dap-mode
-  :defer t
   :config
   (setq dap-auto-configure-features
 	'(sessions locals controls tooltip))
   (dap-auto-configure-mode))
 
 ;;; C/C++
-
 (use-package ccls
   :config
   (setq-default flycheck-disabled-checkers
@@ -347,13 +315,11 @@
   ((c-mode c++-mode) . lsp-deferred))
 
 ;;; Java
-
 (use-package lsp-java
   :hook
   (java-mode . lsp-deferred))
 
 ;;; Web
-
 (use-package web-mode
   :hook
   (sgml-mode . web-mode))
@@ -363,34 +329,28 @@
   (sgml-mode . emmet-mode))
 
 ;;; Python
-
 (use-package python
-  :defer t
   :config
   (setq python-shell-interpreter "ipython"
 	python-shell-interpreter-args "-i --simple-prompt"
-	python-indent-guess-indent-offset-verbose nil))
+	python-indent-guess-indent-offset-verbose nil)
+  :hook
+  (python-mode . lsp-deferred))
 
 (use-package pyvenv
-  :defer t
   :hook
   (python-mode . pyvenv-mode))
 
-;;; Racket
 
-(use-package racket-mode
-  :defer t)
+;;; Racket
+(use-package racket-mode)
 
 ;;; R
-
 (use-package ess
-  :defer t
   :config
   (setq ess-use-flymake nil))
 
-
 ;;;; Visual Niceties
-
 (set-charset-priority 'unicode)
 (prefer-coding-system 'utf-8)
 (set-fontset-font
@@ -413,16 +373,14 @@
   :hook
   (emacs-startup . minions-mode)
   :config
-  (setq minions-mode-line-lighter "-"
+  (setq minions-mode-line-lighter "-*-"
 	minions-mode-line-delimiters nil
 	minions-direct '(flycheck-mode)))
 
 ;;;; Security for the intrepid
-
 (setq ffap-machine-p-known 'reject)
 
 ;;;; Miscellaneous
-
 (setq ring-bell-function 'ignore
       require-final-newline t
       vc-follow-symlinks t
@@ -432,7 +390,6 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Backups
-
 (setq backup-directory-alist
       `((".*" . ,(no-littering-expand-var-file-name "backup/")))
       vc-make-backup-files t
@@ -443,5 +400,4 @@
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
 ;; Enable functions
-
 (put 'dired-find-alternate-file 'disabled nil)
