@@ -1,0 +1,7 @@
+[date]
+command=date +%R\ %a\ %b\ %d\ %y
+interval=60
+
+[battery]
+command=~/.local/bin/battery_status
+interval=30

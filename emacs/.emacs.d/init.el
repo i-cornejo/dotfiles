@@ -19,8 +19,6 @@
 (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
 (load custom-file t)
 
-(setq byte-compile-warnings '(cl-functions)) ; package cl is deprecated warning
-
 (setq gc-cons-threshold most-positive-fixnum)
 
 (use-package gcmh
@@ -29,6 +27,23 @@
 	gcmh-high-cons-threshold (* 16 1024 1024)))
 
 ;;;; Essentials
+(use-package recentf
+  :ensure f
+  :init
+  (setq recentf-auto-cleanup 'never)
+  (recentf-mode)
+  (add-hook 'delete-frame-functions
+	    (lambda (frame) (recentf-save-list)))
+  :config
+  (setq recentf-max-menu-items 100
+	recentf-max-saved-items 100)
+  (add-to-list 'recentf-exclude no-littering-var-directory)
+  (add-to-list 'recentf-exclude no-littering-etc-directory))
+
+(use-package dired
+  :ensure f
+  :hook
+  (dired-mode . dired-hide-details-mode))
 
 ;;; Help
 (use-package which-key
@@ -73,7 +88,7 @@
   ("C-x f" . counsel-recentf)
   ("C-x r b" . counsel-bookmark)
   ("M-x" . counsel-M-x)
-  ("C-c j j" . counsel-rg)
+  ("C-c j r" . counsel-rg)
   ("C-c j i" . counsel-imenu)
   ("C-c j l" . counsel-find-library)
   :config
@@ -81,18 +96,18 @@
   (ivy-configure 'counsel-imenu
     :update-fn 'auto))
 
+(global-set-key (kbd "C-h I") 'woman)
+
 (use-package swiper
   :bind
   ("C-s" . swiper-isearch))
 
-(use-package recentf
-  :defer t
-  :ensure f
+(use-package avy
   :config
-  (setq recentf-max-menu-items 100
-	recentf-max-saved-items 100)
-  (add-to-list 'recentf-exclude no-littering-var-directory
-	       'recentf-exclude no-littering-etc-directory))
+  (setq avy-timeout-seconds 0.2)
+  :bind
+  ("C-c j j" . avy-goto-char-timer))
+
 (use-package ivy-hydra)
 (use-package flx)
 (use-package amx)
@@ -131,7 +146,9 @@
 	("C-u" . vterm--self-insert)
 	("M-c" . nil)
 	("C-M-v" . nil)
-	("C-S-M-v" . nil)))
+	("C-S-M-v" . nil))
+  :config
+  (setq vterm-kill-buffer-on-exit t))
 
 (use-package vterm-toggle
   :bind*
@@ -147,8 +164,6 @@
             (apply orig-fun args)))
       (apply orig-fun args)))
   (advice-add 'counsel-yank-pop-action :around #'vterm-counsel-yank-pop-action))
-
-(global-set-key (kbd "C-c j m") 'woman)
 
 ;;;; Org Mode
 (use-package org
@@ -170,8 +185,7 @@
 	org-archive-location "~/org/gtd/inbox.org::"
 	org-log-into-drawer t
 	org-refile-targets (quote ((nil :maxlevel . 3)
-                                   (org-agenda-files :maxlevel . 3)
-				   ("~/org/roam/notes/UNAM" :tag . "UNAM"))))
+                                   (org-agenda-files :maxlevel . 3))))
 
   ;; Org Capture Templates
   (setq org-default-notes-file "~/org/gtd/inbox.org"
@@ -291,6 +305,8 @@
   (lsp-mode . lsp-enable-which-key-integration)
   :commands
   (lsp lsp-deferred)
+  :bind-keymap
+  ("C-c SPC" . lsp-command-map)
   :bind
   (:map lsp-mode-map
 	("M-?" . lsp-find-references))
@@ -351,23 +367,25 @@
   (setq ess-use-flymake nil))
 
 ;;;; Visual Niceties
-(set-charset-priority 'unicode)
-(prefer-coding-system 'utf-8)
-(set-fontset-font
- t 'symbol "Noto Color Emoji" nil 'append)
-(set-face-attribute 'vc-state-base nil :foreground "sky blue")
-
-(setq display-time-default-load-average nil
-      display-time-format " | %I:%M %p")
-(add-hook 'after-init-hook #'display-time-mode)
-
-(setq battery-mode-line-format "%b%p%% "
-      battery-load-critical 30)
-(add-hook 'after-init-hook #'display-battery-mode)
-
 (use-package monokai-theme
   :init
   (load-theme 'monokai))
+
+(set-face-attribute 'default nil :height 165)
+(set-face-attribute 'mode-line nil :height 140)
+(set-fontset-font
+ t 'symbol "Noto Color Emoji" nil 'append)
+(set-face-attribute 'vc-state-base nil :foreground "sky blue")
+(set-charset-priority 'unicode)
+(prefer-coding-system 'utf-8)
+
+;; (setq display-time-default-load-average nil
+      ;; display-time-format " | %I:%M %p")
+;; (add-hook 'after-init-hook #'display-time-mode)
+
+;; (setq battery-mode-line-format "%b%p%% "
+      ;; battery-load-critical 25)
+;; (add-hook 'after-init-hook #'display-battery-mode)
 
 (use-package minions
   :hook
@@ -382,6 +400,7 @@
 
 ;;;; Miscellaneous
 (setq ring-bell-function 'ignore
+      delete-by-moving-to-trash t
       require-final-newline t
       vc-follow-symlinks t
       doc-view-resolution 400

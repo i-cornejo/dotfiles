@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("programs"
+(("blocks"
+ (filename . "~/.config/i3blocks/config")
+ (front-context-string . "[date]\ncommand=d")
+ (rear-context-string)
+ (position . 1))
+("i3"
+ (filename . "~/.config/i3/config")
+ (front-context-string . "set $mod Mod4\n\n#")
+ (rear-context-string)
+ (position . 1))
+("programs"
  (filename . "~/programs/")
  (front-context-string . "C\n  drwxr-xr-x  ")
  (rear-context-string . "96 Mar 19 13:36 ")

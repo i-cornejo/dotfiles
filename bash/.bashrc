@@ -14,14 +14,13 @@ shopt -s histappend
 shopt -s checkwinsize
 
 case "$TERM" in
-    eterm-color|xterm-color|*-256color) color_prompt=yes;;
+    eterm-color|xterm-color|*-256color)
+	PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+	;;
+    *)
+	PS1='[\u@\h]:\w\$ '
+	;;
 esac
-
-if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-	PS1='[\u@\h \W]\$ '
-fi
 
 alias ls='ls --color=auto'
 alias dir='dir --color=auto'
@@ -34,7 +33,6 @@ alias l='ls -CF'
 
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
 
 # emacs-libvterm
 vterm_printf(){
@@ -60,8 +58,11 @@ emacs-clean(){
     fi
 }
 
+PATH=$PATH:~/.local/bin
+
 alias emacs-compile='emacs --batch --eval "(byte-recompile-directory \"~/.emacs.d/elpa/\" 0)"'
 alias rm='gio trash'
 alias video='sudo modprobe uvcvideo'
 alias racket='racket -l sicp -i'
 alias python='python3'
+alias -- update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg && sudo mkinitcpio -p linux'
