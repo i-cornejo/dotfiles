@@ -371,7 +371,6 @@
   :init
   (load-theme 'monokai))
 
-(set-face-attribute 'default nil :height 165)
 (set-face-attribute 'mode-line nil :height 140)
 (set-fontset-font
  t 'symbol "Noto Color Emoji" nil 'append)
