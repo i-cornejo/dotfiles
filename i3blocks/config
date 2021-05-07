@@ -1,3 +1,7 @@
+# Global properties
+separator=true
+separator_block_width=15
+
 [date]
 command=date +%R\ %a\ %b\ %d\ %y
 interval=60
