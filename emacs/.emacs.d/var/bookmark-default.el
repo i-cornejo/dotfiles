@@ -3,12 +3,12 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("blocks"
- (filename . "~/.config/i3blocks/config")
- (front-context-string . "[date]\ncommand=d")
+ (filename . "~/.i3/i3blocks.conf")
+ (front-context-string . "# Global propert")
  (rear-context-string)
  (position . 1))
 ("i3"
- (filename . "~/.config/i3/config")
+ (filename . "~/.i3/config")
  (front-context-string . "set $mod Mod4\n\n#")
  (rear-context-string)
  (position . 1))
