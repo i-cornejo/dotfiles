@@ -4,7 +4,7 @@ hide_edge_borders both
 
 
 # Font for window titles.
-font pango:Source Code Pro Medium 8
+font pango:Noto Sans 8
 
 # Network Manager system tray
 exec --no-startup-id nm-applet
@@ -188,6 +188,6 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 bar {
-	font pango:Source Code Pro Medium 16
+	font pango:Noto Sans 16
         status_command i3blocks -c ~/.i3/i3blocks.conf
 }
