@@ -2,9 +2,19 @@ set $mod Mod4
 focus_follows_mouse no
 hide_edge_borders both
 
-
 # Font for window titles.
 font pango:Noto Sans 8
+
+# Suspend when idle
+exec --no-startup-id xidlehook \
+	       		--not-when-fullscreen \
+	       		--not-when-audio \
+	       		--timer 120 \
+	       		'brightnessctl --save; brightnessctl set 1%' \
+	       		'brightnessctl --restore' \
+	       		--timer 10 \
+	       		'systemctl suspend; brightnessctl --restore' \
+	       		''
 
 # Network Manager system tray
 exec --no-startup-id nm-applet
@@ -16,17 +26,27 @@ exec --no-startup-id ~/.fehbg
 exec --no-startup-id dunst
 exec --no-startup-id dropbox
 exec --no-startup-id lxqt-policykit-agent
-exec_always --no-startup-id picom -f
+exec_always --no-startup-id picom
+
+# Program shortcuts
+bindsym $mod+m exec --no-startup-id emacsclient -c -a ''
+bindsym $mod+Return exec --no-startup-id emacsclient -c -a '' --eval '(vterm)'
+bindsym $mod+Shift+Return exec --no-startup-id alacritty
+bindsym $mod+e exec --no-startup-id emacsclient -c -a '' --eval '(dired nil)'
+
+# Scripts
+bindsym Print exec --no-startup-id screenshot.sh
 
 # Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # Use brightnessctl to adjust screen brightness
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +1%
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 1%-
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+bindsym Shift+XF86MonBrightnessUp exec --no-startup-id brightnessctl set 100%
+bindsym Shift+XF86MonBrightnessDown exec --no-startup-id brightnessctl set 1%
 
 # Keyboard backlight
 bindsym XF86KbdBrightnessUp exec --no-startup-id brightnessctl --device='ite_8291::kbd_backlight' set +10%
@@ -35,21 +55,12 @@ bindsym XF86KbdBrightnessDown exec --no-startup-id brightnessctl --device='ite_8
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# Program shortcuts
-bindsym $mod+m exec --no-startup-id emacsclient -c -a ''
-bindsym $mod+Return exec --no-startup-id emacsclient -c --eval '(vterm t)'
-bindsym $mod+e exec --no-startup-id emacsclient -c -a '' --eval '(dired nil)'
-
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym Mod1+space exec --no-startup-id dmenu_run
-# A more modern dmenu replacement is rofi:
-# bindcode $mod+40 exec "rofi -modi drun,run -show drun"
-# There also is i3-dmenu-desktop which only displays applications shipping a
-# .desktop file. It is a wrapper around dmenu, so you need that installed.
-# bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+space exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+Shift+space exec --no-startup-id dmenu_run
 
 # change focus
 bindsym $mod+h focus left
@@ -93,7 +104,7 @@ bindsym $mod+s layout toggle split
 # bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+Shift+space focus mode_toggle
+bindsym Mod1+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent

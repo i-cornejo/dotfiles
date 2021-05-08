@@ -1,0 +1,1 @@
+/home/pink/Dropbox/programs/bash/battery_status.sh
