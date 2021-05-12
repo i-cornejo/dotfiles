@@ -5,6 +5,3 @@
 (push '(vertical-scroll-bars) default-frame-alist)
 ;; (push '(fullscreen . fullboth) default-frame-alist)
 
-(set-face-attribute 'default nil
-                    :family "Source Code Pro"
-                    :height 165)

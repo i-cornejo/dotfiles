@@ -124,6 +124,12 @@
 	aw-reverse-frame-list t
 	ace-window-display-mode t))
 
+(use-package windresize
+  :bind
+  ("C-x t w" . windresize)
+  :config
+  (setq windresize-increment 5))
+
 (use-package transpose-frame
   :bind
   ("M-c" . transpose-frame))
@@ -140,6 +146,8 @@
   (pdf-loader-install))
 
 (use-package vterm
+  :bind*
+  ([f2] . vterm-other-window)
   :bind
   (:map vterm-mode-map
 	([f11] . nil)
@@ -148,14 +156,8 @@
 	("C-M-v" . nil)
 	("C-S-M-v" . nil))
   :config
-  (setq vterm-kill-buffer-on-exit t))
-
-(use-package vterm-toggle
-  :bind*
-  ([f2] . vterm-toggle)
-  :config
-  (setq vterm-toggle-hide-method 'reset-window-configration)
-  (defun vterm-counsel-yank-pop-action (orig-fun &rest args)
+  (setq vterm-kill-buffer-on-exit t)
+    (defun vterm-counsel-yank-pop-action (orig-fun &rest args)
     (if (equal major-mode 'vterm-mode)
 	(let ((inhibit-read-only t)
               (yank-undo-function (lambda (_start _end) (vterm-undo))))
@@ -371,20 +373,19 @@
   :init
   (load-theme 'monokai))
 
-(set-face-attribute 'mode-line nil :height 140)
-(set-fontset-font
- t 'symbol "Noto Color Emoji" nil 'append)
-(set-face-attribute 'vc-state-base nil :foreground "sky blue")
+(set-face-attribute 'default nil
+                    :family "Source Code Pro"
+                    :height 165)
+(set-face-attribute 'mode-line nil
+		    :height 140)
+(set-face-attribute 'vc-state-base nil
+		    :foreground "sky blue")
 (set-charset-priority 'unicode)
 (prefer-coding-system 'utf-8)
 
-;; (setq display-time-default-load-average nil
-      ;; display-time-format " | %I:%M %p")
-;; (add-hook 'after-init-hook #'display-time-mode)
-
-;; (setq battery-mode-line-format "%b%p%% "
-      ;; battery-load-critical 25)
-;; (add-hook 'after-init-hook #'display-battery-mode)
+(add-hook 'server-after-make-frame-hook
+	  (lambda () (set-fontset-font
+		      t 'symbol "Noto Color Emoji")))
 
 (use-package minions
   :hook
