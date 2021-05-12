@@ -9,6 +9,9 @@
 # append to the history file, don't overwrite it
 shopt -s histappend
 
+HISTSIZE=-1
+HISTFILESIZE=-1
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -46,9 +49,6 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
     }
 fi
 
-HISTSIZE=-1
-HISTFILESIZE=-1
-
 emacs-clean(){
     byte_compiled=$(find ~/.emacs.d/elpa -name *elc | xargs)
     if [ -z "$byte_compiled" ]; then
@@ -58,12 +58,13 @@ emacs-clean(){
     fi
 }
 
-PATH=$PATH:~/.local/bin
-
 alias emacs-compile='emacs --batch --eval "(byte-recompile-directory \"~/.emacs.d/elpa/\" 0)"'
 alias rm='gio trash'
 alias video='sudo modprobe uvcvideo'
 alias racket='racket -l sicp -i'
 alias python='python3'
 alias -- update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg && sudo mkinitcpio -p linux'
-alias bluetooth='systemctl start bluetooth && bluetoothctl'
+alias bluetooth='sudo systemctl start bluetooth && bluetoothctl'
+alias projector='xrandr --output HDMI-1-0 --auto && systemd-inhibit --what=handle-lid-switch sleep 1d'
+
+PATH=$PATH:~/.local/bin
