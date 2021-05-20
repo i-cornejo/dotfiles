@@ -30,10 +30,7 @@
 (use-package recentf
   :ensure f
   :init
-  (setq recentf-auto-cleanup 'never)
   (recentf-mode)
-  (add-hook 'delete-frame-functions
-	    (lambda (frame) (recentf-save-list)))
   :config
   (setq recentf-max-menu-items 100
 	recentf-max-saved-items 100)
@@ -44,6 +41,11 @@
   :ensure f
   :hook
   (dired-mode . dired-hide-details-mode))
+
+(use-package ibuffer
+  :ensure f
+  :bind*
+  ("C-x C-b" . ibuffer-other-window))
 
 ;;; Help
 (use-package which-key
@@ -134,6 +136,7 @@
   :bind
   ("M-c" . transpose-frame))
 
+(setq split-width-threshold 80)
 (add-hook 'emacs-startup-hook #'winner-mode)
 
 ;;; Utilities
@@ -385,7 +388,7 @@
 
 (add-hook 'server-after-make-frame-hook
 	  (lambda () (set-fontset-font
-		      t 'symbol "Noto Color Emoji")))
+		      t 'symbol "Symbola")))
 
 (use-package minions
   :hook
@@ -395,9 +398,6 @@
 	minions-mode-line-delimiters nil
 	minions-direct '(flycheck-mode)))
 
-;;;; Security for the intrepid
-(setq ffap-machine-p-known 'reject)
-
 ;;;; Miscellaneous
 (setq ring-bell-function 'ignore
       delete-by-moving-to-trash t
@@ -406,6 +406,8 @@
       doc-view-resolution 400
       initial-scratch-message nil)
 
+(setq ispell-program-name "aspell")
+(global-unset-key (kbd "M-SPC"))
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Backups
