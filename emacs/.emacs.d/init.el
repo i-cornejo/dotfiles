@@ -77,6 +77,7 @@
 
 ;;; Miscellaneous
 (winner-mode)
+(blink-cursor-mode -1)
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (setq find-file-suppress-same-file-warnings t)
 (setq dired-hide-details-hide-symlink-targets nil)
