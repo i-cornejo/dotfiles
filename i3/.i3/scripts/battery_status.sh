@@ -10,13 +10,10 @@ if [ "$status" = "Charging" ] || [ "$capacity" -gt 15 ]; then
 fi
 
 if [ "$status"  = "Discharging" ]; then
-
 	if [ "$capacity" -le 9 ];then
 		systemctl suspend
-
 	elif [ "$capacity" -le 15 ]; then
 		color="#CC0000"
-
 		if [ "$flag" = "False" ]; then
 			notify-send -t 5000 -u critical "Battery Critically Low" \
 			"Plug in to AC or Suspend immediately"
