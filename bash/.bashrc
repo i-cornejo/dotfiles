@@ -12,7 +12,8 @@ shopt -s histappend
 HISTCONTROL=erasedups
 HISTSIZE=-1
 HISTFILESIZE=-1
-
+EDITOR="emacsclient -ca ''"
+export ASPELL_CONF="HOME-DIR ~/.aspell"
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 case "$TERM" in
@@ -23,13 +24,6 @@ case "$TERM" in
 	PS1='[\u@\h]:\w\$ '
 	;;
 esac
-
-# emacs-libvterm
-if [[ "$INSIDE_EMACS" = 'vterm' ]] \
-    && [[ -n ${EMACS_VTERM_PATH} ]] \
-    && [[ -f ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh ]]; then
-	source ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
-fi
 
 # color aliases
 alias ls='ls --color=auto'
@@ -58,6 +52,7 @@ alias video='xrandr --output HDMI-1-0 --auto \
 alias prime-run='__NV_PRIME_RENDER_OFFLOAD=1\
      __VK_LAYER_NV_optimus=NVIDIA_only __GLX_VENDOR_LIBRARY_NAME=nvidia'
 
+# emacs
 emacs-clean(){
     byte_compiled=$(find ~/.emacs.d/elpa -name *elc | xargs)
     if [ -z "$byte_compiled" ]; then
@@ -67,3 +62,19 @@ emacs-clean(){
     fi
 }
 
+function vterm_printf(){
+         printf "\e]%s\e\\" "$1"
+}
+
+if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
+    function clear(){
+        vterm_printf "51;Evterm-clear-scrollback";
+        tput clear;
+    }
+fi
+
+vterm_prompt_end(){
+    vterm_printf "51;A$(whoami)@$(hostnamectl --static):$(pwd)"
+}
+
+PS1=$PS1'\[$(vterm_prompt_end)\]'
