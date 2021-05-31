@@ -1,5 +1,4 @@
-;;; init.el --- icmor Emacs configuration file
-
+;;; init.el --- icmor's Emacs
 ;;; Commentary
 
 ;; Got inspired to start a new Emacs journey based on the
@@ -17,12 +16,17 @@
 (setq user-var-dir	 (concat user-emacs-directory "var/"))
 (setq user-etc-dir	 (concat user-emacs-directory "etc/"))
 
-(setq bookmark-default-file		 (concat user-var-dir "bookmark-default.el"))
-(setq speed-type-gb-dir			 (concat user-var-dir "speed-type/"))
-(setq image-dired-dir			 (concat user-var-dir "image-dired/"))
-(setq tramp-persistency-file-name	 (concat user-var-dir "tramp/persistency.el"))
-(setq custom-file			 (concat user-etc-dir "custom.el"))
-(load custom-file)
+(setq bookmark-default-file		(concat user-var-dir "bookmark-default.el"))
+(setq speed-type-gb-dir			(concat user-var-dir "speed-type/"))
+(setq image-dired-dir			(concat user-var-dir "image-dired/"))
+(setq tramp-persistency-file-name	(concat user-var-dir "tramp/persistency.el"))
+(setq savehist-file			(concat user-var-dir "savehist"))
+(setq custom-file			(concat user-etc-dir "custom.el"))
+(setq project-list-file			(concat user-var-dir "projects"))
+(setq url-cache-directory		(concat user-var-dir "url/cache/"))
+(setq url-configuration-directory	(concat user-var-dir "url/configuration/"))
+(if (file-exists-p custom-file)
+    (load custom-file))
 
 ;;;; Backups and Auto-save files
 (setq auto-save-list-file-prefix (concat user-var-dir "auto-save-list/.saves-"))
