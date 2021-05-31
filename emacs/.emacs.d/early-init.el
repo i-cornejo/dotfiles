@@ -1,5 +1,10 @@
-;;;; Frame Configuration
+;; early-init.el --- Early Init File
 
-(push '(menu-bar-lines . 0) default-frame-alist)
-(push '(tool-bar-lines . 0) default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
+;;; Frame Configuration
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+;;; No splash screens
+(setq inhibit-startup-screen t)
+(setq inhibit-startup-buffer-menu t)
