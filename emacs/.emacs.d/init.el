@@ -50,12 +50,13 @@
   (org-agenda-redo))
 
 ;;; General Bindings
-(global-set-key (kbd "C-z") #'my/vterm-toggle)
+(global-set-key [f2] #'my/vterm-toggle)
 (global-set-key (kbd "C-x f") #'find-file)
 
 ;;; vterm
+(setq vterm-max-scrollback 10000)
 (add-hook 'vterm-mode-hook
-	  (lambda () (local-unset-key (kbd "C-z"))))
+	  (lambda () (local-unset-key [f2])))
 (eval-after-load 'vterm
   '(progn
      (define-key vterm-mode-map (kbd "C-u") #'vterm--self-insert)
@@ -68,21 +69,42 @@
 ;;; Org-mode
 (setq org-agenda-files '("~/org/gtd/"))
 (setq org-log-into-drawer t)
+(setq org-hide-leading-stars t)
 (add-hook 'org-mode-hook 'visual-line-mode)
 (eval-after-load 'org '(add-to-list 'org-modules 'org-habit t))
 (global-set-key (kbd "C-c a") #'org-agenda-list)
 (eval-after-load 'org-agenda
   '(define-key org-agenda-mode-map (kbd "h") #'my/toggle-habit-length))
 
+;;; Programming
+(show-paren-mode 1)
+(setq show-paren-delay 0)
+(setq show-paren-style 'mixed)
+(global-set-key (kbd "C-x g") 'magit)
+
+
+;;;; Web
+
 ;;; Visual
 (add-to-list 'default-frame-alist
 	     '(font . "Source Code Pro-14"))
-(load-theme 'monokai t)
+(load-theme 'modus-vivendi t)
 
 ;;; Miscellaneous
 (winner-mode)
+(marginalia-mode)
+(which-key-mode)
 (blink-cursor-mode -1)
+(tooltip-mode -1)
+(savehist-mode 1)
+(setq history-length 1000)
+(setq history-delete-duplicates t)
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+(global-set-key (kbd "M-z") #'zap-up-to-char)
+(setq which-key-idle-delay 0.5)
+(setq which-key-idle-secondary-delay 0.05)
+(setq use-short-answers t)
+(setq bookmark-fontify nil)
 (setq find-file-suppress-same-file-warnings t)
 (setq dired-hide-details-hide-symlink-targets nil)
 (setq backup-by-copying t)
@@ -92,3 +114,9 @@
 (setq delete-by-moving-to-trash t)
 (setq ring-bell-function 'ignore)
 (setq disabled-command-function nil)
+(setq native-comp-async-report-warnings-errors 'silent)
+(setq outline-minor-mode-cycle t)
+(setq completions-format 'one-column)
+(setq save-interprogram-paste-before-kill t)
+(setq fill-column 80)
+(setq read-buffer-completion-ignore-case t)
