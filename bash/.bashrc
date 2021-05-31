@@ -66,15 +66,14 @@ function vterm_printf(){
          printf "\e]%s\e\\" "$1"
 }
 
+vterm_prompt_end(){
+    vterm_printf "51;A$(whoami)@$(hostnamectl --static):$(pwd)"
+}
+
 if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
+    PS1=$PS1'\[$(vterm_prompt_end)\]'
     function clear(){
         vterm_printf "51;Evterm-clear-scrollback";
         tput clear;
     }
 fi
-
-vterm_prompt_end(){
-    vterm_printf "51;A$(whoami)@$(hostnamectl --static):$(pwd)"
-}
-
-PS1=$PS1'\[$(vterm_prompt_end)\]'
