@@ -5,6 +5,8 @@ set number
 set relativenumber
 set ruler
 set wildmenu
+set splitbelow
+set splitright
 
 set undodir=~/.vim/undo
 set undofile
@@ -15,11 +17,12 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 
-set splitbelow
-set splitright
-
-colorscheme molokai
-set background=dark
+if $TERM == 'linux'
+	set background=dark
+	colorscheme pablo
+else
+	colorscheme ron
+endif
 
 nnoremap j  gj
 nnoremap k  gk
