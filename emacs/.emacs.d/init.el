@@ -132,3 +132,4 @@
 (setq save-interprogram-paste-before-kill t)
 (setq fill-column 80)
 (setq read-buffer-completion-ignore-case t)
+(setq auth-source-save-behavior 'never)
