@@ -94,6 +94,13 @@
 (load-theme 'modus-vivendi t)
 
 ;;; Miscellaneous
+(eval-after-load 'pomodoro
+  '(pomodoro-add-to-mode-line))
+(setq pomodoro-sound-player "paplay")
+(setq pomodoro-work-start-sound
+      "/usr/share/sounds/freedesktop/stereo/phone-outgoing-busy.oga")
+(setq pomodoro-break-start-sound
+      "/usr/share/sounds/freedesktop/stereo/message-new-instant.oga")
 (winner-mode)
 (marginalia-mode)
 (which-key-mode)
