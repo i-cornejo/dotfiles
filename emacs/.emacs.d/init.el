@@ -101,6 +101,8 @@
       "/usr/share/sounds/freedesktop/stereo/phone-outgoing-busy.oga")
 (setq pomodoro-break-start-sound
       "/usr/share/sounds/freedesktop/stereo/message-new-instant.oga")
+(setq doc-view-resolution 400)
+(pdf-loader-install)
 (winner-mode)
 (marginalia-mode)
 (which-key-mode)
