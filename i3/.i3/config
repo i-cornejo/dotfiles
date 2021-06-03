@@ -32,10 +32,11 @@ exec --no-startup-id udiskie
 exec --no-startup-id picom --no-fading-openclose
 exec --no-startup-id redshift -l 21:-86
 exec --no-startup-id xidlehook \
+     		     --detect-sleep \
 		     --not-when-fullscreen \
 		     --not-when-audio \
 		     --timer 120 \
-		     'brightnessctl --save; brightnessctl set 1%' \
+		     'brightnessctl --save; brightnessctl set 0%' \
 		     'brightnessctl --restore' \
 		     --timer 10 \
 		     'systemctl suspend; brightnessctl --restore' \
