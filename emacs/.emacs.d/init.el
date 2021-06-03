@@ -25,6 +25,9 @@
 (setq project-list-file			(concat user-var-dir "projects"))
 (setq url-cache-directory		(concat user-var-dir "url/cache/"))
 (setq url-configuration-directory	(concat user-var-dir "url/configuration/"))
+(setq transient-history-file		(concat user-var-dir "transient/history.el"))
+(setq transient-levels-file		(concat user-etc-dir "transient/levels.el"))
+(setq transient-values-file		(concat user-etc-dir "transient/values.el"))
 (if (file-exists-p custom-file)
     (load custom-file))
 
