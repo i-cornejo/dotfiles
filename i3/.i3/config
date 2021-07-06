@@ -29,13 +29,13 @@ exec --no-startup-id nm-applet
 exec --no-startup-id dropbox
 exec --no-startup-id lxqt-policykit-agent
 exec --no-startup-id udiskie
-exec --no-startup-id picom --no-fading-openclose
+exec --no-startup-id picom --no-fading-openclose --experimental-backend
 exec --no-startup-id redshift -l 21:-86
 exec --no-startup-id xidlehook \
      		     --detect-sleep \
 		     --not-when-fullscreen \
 		     --not-when-audio \
-		     --timer 120 \
+		     --timer 180 \
 		     'brightnessctl --save; brightnessctl set 0%' \
 		     'brightnessctl --restore' \
 		     --timer 10 \
@@ -93,6 +93,7 @@ bindsym $mod+n split v
 bindsym $mod+Shift+n split h
 
 bindsym $mod+a focus parent
+bindsym $mod+Shift+a focus child
 bindsym $mod+f fullscreen toggle
 
 floating_modifier $mod
