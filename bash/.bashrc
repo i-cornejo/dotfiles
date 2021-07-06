@@ -13,7 +13,6 @@ HISTCONTROL=erasedups
 HISTSIZE=-1
 HISTFILESIZE=-1
 export EDITOR="emacsclient -ca ''"
-export ASPELL_CONF="HOME-DIR ~/.aspell"
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 case "$TERM" in
