@@ -142,8 +142,8 @@
 (setq comint-prompt-read-only t)
 
 ;;;; C
-(add-to-list 'c-default-style
-	     '(c-mode . "k&r"))
+(add-hook 'c-mode-hook
+	  (lambda () (c-set-style "k&r")))
 
 ;;; Miscellaneous
 ;;;; Visual
