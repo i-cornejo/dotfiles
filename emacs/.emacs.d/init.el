@@ -8,9 +8,6 @@
 ;; the tools I use and achieving autonomy through power,
 ;; knowledge and humility.
 
-;;; Package Configuration
-(add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/") t)
 
 ;;; No littering
 (setq user-var-dir	 (concat user-emacs-directory "var/"))
@@ -28,13 +25,18 @@
 (setq transient-history-file		(concat user-var-dir "transient/history.el"))
 (setq transient-levels-file		(concat user-etc-dir "transient/levels.el"))
 (setq transient-values-file		(concat user-etc-dir "transient/values.el"))
-(if (file-exists-p custom-file)
-    (load custom-file))
 
 ;;;; Backups and Auto-save files
 (setq auto-save-list-file-prefix (concat user-var-dir "auto-save-list/.saves-"))
 (setq backup-directory-alist `((".*" . ,(concat user-var-dir "backup"))))
 (setq tramp-backup-directory-alist backup-directory-alist)
+
+;;; Package Configuration
+(add-to-list 'package-archives
+	     '("melpa" . "https://melpa.org/packages/") t)
+
+(load custom-file)
+(package-install-selected-packages)
 
 ;;; Functions
 (defun my/vterm-toggle ()
