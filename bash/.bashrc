@@ -36,12 +36,11 @@ alias l='ls -CF'
 
 # convenient aliases
 alias rm='gio trash'
+alias emacs='emacsclient -ca ""'
 alias racket='racket -l sicp -i'
 alias python='python3'
 alias bluetooth='sudo systemctl start bluetooth && bluetoothctl;\
       sudo systemctl stop bluetooth'
-alias emacs-compile='emacs --batch --eval \
-      "(byte-recompile-directory \"~/.emacs.d/elpa/\" 0)"'
 alias -- update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg\
       && sudo mkinitcpio -p linux'
 alias cleankey='xinput disable "AT Translated Set 2 keyboard";\
@@ -52,15 +51,6 @@ alias prime-run='__NV_PRIME_RENDER_OFFLOAD=1\
      __VK_LAYER_NV_optimus=NVIDIA_only __GLX_VENDOR_LIBRARY_NAME=nvidia'
 
 # emacs
-emacs-clean(){
-    byte_compiled=$(find ~/.emacs.d/elpa -name *elc | xargs)
-    if [ -z "$byte_compiled" ]; then
-		echo "No byte compiled files found"
-    else
-		/usr/bin/rm $byte_compiled
-    fi
-}
-
 function vterm_printf(){
          printf "\e]%s\e\\" "$1"
 }

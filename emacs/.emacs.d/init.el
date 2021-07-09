@@ -136,6 +136,7 @@
 (setq show-paren-delay 0)
 (setq show-paren-style 'mixed)
 (setq outline-minor-mode-cycle t)
+(add-hook 'prog-mode-hook #'electric-pair-local-mode)
 
 ;;;; Comint
 (setq shell-command-prompt-show-cwd t)
@@ -160,6 +161,7 @@
 
 ;;;; Window Management
 (winner-mode)
+(setq split-width-threshold 80)
 
 ;;;; History
 (savehist-mode 1)
