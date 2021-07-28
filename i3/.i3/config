@@ -45,12 +45,11 @@ exec --no-startup-id xidlehook \
 #===Program shortcuts===#
 bindsym $mod+space exec --no-startup-id i3-dmenu-desktop
 bindsym $mod+e exec --no-startup-id pcmanfm
-bindsym $mod+Shift+Return exec --no-startup-id alacritty
 bindsym $mod+m exec --no-startup-id emacsclient -nca ""
 bindsym $mod+Return exec --no-startup-id \
 			 emacsclient -ca "" -e '(vterm)'
 
-# Scripts
+#===Scripts===#
 bindsym Print exec --no-startup-id screenshot.sh
 bindsym $mod+Shift+q exec --no-startup-id exit_menu.sh
 
@@ -70,6 +69,8 @@ bindsym XF86KbdBrightnessUp exec --no-startup-id brightnessctl --device='ite_829
 bindsym Shift+XF86KbdBrightnessUp exec --no-startup-id brightnessctl --device='ite_8291::kbd_backlight' set 100%
 bindsym XF86KbdBrightnessDown exec --no-startup-id brightnessctl --device='ite_8291::kbd_backlight' set 10%-
 bindsym Shift+XF86KbdBrightnessDown exec --no-startup-id brightnessctl --device='ite_8291::kbd_backlight' set 0%
+
+bindsym $mod+Shift+space exec --no-startup-id switch_layouts.sh && pkill -SIGRTMIN+12 i3blocks
 
 #===Program Assignments===#
 assign [class="discord"] → $ws8
@@ -98,7 +99,8 @@ bindsym $mod+Shift+a focus child
 bindsym $mod+f fullscreen toggle
 
 floating_modifier $mod
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+p floating toggle
+bindsym $mod+p focus mode_toggle
 
 bindsym $mod+w layout stacking
 bindsym $mod+d layout tabbed
