@@ -15,6 +15,10 @@ HISTFILESIZE=-1
 export EDITOR="emacsclient -ca ''"
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
+if grep -q Microsoft /proc/version; then
+    alias emacs='emacsclient -ca ""'
+fi
+
 case "$TERM" in
     *color*)
 	PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
@@ -36,7 +40,6 @@ alias l='ls -CF'
 
 # convenient aliases
 alias rm='gio trash'
-alias emacs='emacsclient -ca ""'
 alias racket='racket -l sicp -i'
 alias python='python3'
 alias bluetooth='sudo systemctl start bluetooth && bluetoothctl;\

@@ -79,7 +79,7 @@
 	 "* TODO %?\n")
 	("q" "Ideas" entry (file+headline "gtd/inbox.org" "Ideas")
 	 "* TODO %?\n")
-	("j" "Journal" plain (file+datetree "life/journal.org")
+	("j" "Journal" plain (file+olp+datetree "life/journal.org")
 	 "%?")))
 
 ;;; Essentials
@@ -98,9 +98,9 @@
 (eval-after-load 'vterm
   '(progn
      (define-key vterm-mode-map (kbd "C-u") #'vterm--self-insert)
-     (define-key vterm-mode-map (kbd "C-M-v") #'vterm--self-insert)
-     (define-key vterm-mode-map (kbd "C-S-M-v") #'vterm--self-insert)
      (define-key vterm-mode-map (kbd "C-SPC") #'vterm-copy-mode)
+     (define-key vterm-mode-map (kbd "C-M-v") nil)
+     (define-key vterm-mode-map (kbd "C-S-M-v") nil)
      (define-key vterm-mode-map [f2] nil)))
 
 ;;;; Magit
@@ -110,8 +110,7 @@
 (marginalia-mode)
 
 ;;;; Pdf-Tools
-(if (display-graphic-p)
-    (pdf-loader-install))
+(pdf-loader-install)
 
 ;;;; Pomodoro
 (eval-after-load 'pomodoro
