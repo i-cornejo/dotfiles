@@ -106,6 +106,9 @@ bindsym $mod+w layout stacking
 bindsym $mod+d layout tabbed
 bindsym $mod+s layout toggle split
 
+bindsym $mod++o scratchpad show
+bindsym $mod+Shift+o move scratchpad
+
 bindsym $mod+Left workspace prev
 bindsym $mod+Right workspace next
 
