@@ -42,8 +42,8 @@
   "Toggle a vterm window"
   (interactive)
   (if (eq major-mode 'vterm-mode)
-	  (delete-window)
-    (vterm-other-window)))
+	  (previous-buffer)
+      (call-interactively #'vterm)))
 
 ;;; Global Bindings
 (global-set-key [f2] #'my/vterm-toggle)
@@ -160,7 +160,6 @@
 
 ;;;; Window Management
 (winner-mode)
-(setq split-width-threshold 80)
 
 ;;;; History
 (savehist-mode 1)
