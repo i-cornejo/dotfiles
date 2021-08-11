@@ -75,9 +75,11 @@
 (setq org-capture-templates
       '(("t" "Tasks" entry (file+headline "gtd/gtd.org" "Tasks")
          "* TODO %?\n")
+	("h" "Homework" entry (file+headline "gtd/gtd.org" "Homework")
+         "* TODO %?\n")
+	("e" "Events" entry (file+headline "gtd/gtd.org" "Events")
+         "* TODO %?\n")
 	("i" "Inbox" entry (file+headline "gtd/inbox.org" "Inbox")
-	 "* TODO %?\n")
-	("q" "Ideas" entry (file+headline "gtd/inbox.org" "Ideas")
 	 "* TODO %?\n")
 	("j" "Journal" plain (file+olp+datetree "life/journal.org")
 	 "%?")))
@@ -177,6 +179,7 @@
 (setq-default fill-column 80)
 
 ;;;; Files
+(setq auto-save-default nil)
 (setq backup-by-copying t)
 (setq create-lockfiles nil)
 (setq vc-follow-symlinks nil)
