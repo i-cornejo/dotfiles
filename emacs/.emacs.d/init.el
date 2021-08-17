@@ -38,12 +38,21 @@
 (package-install-selected-packages)
 
 ;;; Functions
-(defun my/vterm-toggle ()
+(defun my/vterm-toggle (arg)
   "Toggle a vterm window"
-  (interactive)
-  (if (eq major-mode 'vterm-mode)
+  (interactive "P")
+  (if (and (eq major-mode 'vterm-mode)
+	   (not arg))
 	  (previous-buffer)
-      (call-interactively #'vterm)))
+    (call-interactively #'vterm)))
+
+(defun my/dired-toggle-dotfiles ()
+  "Toggle ls switches"
+  (interactive)
+  (if (string= dired-actual-switches "-lA")
+      (setq dired-actual-switches "-l")
+    (setq dired-actual-switches "-lA"))
+  (revert-buffer))
 
 ;;; Global Bindings
 (global-set-key [f2] #'my/vterm-toggle)
@@ -88,7 +97,11 @@
 ;;;; Dired
 (setq dired-dwim-target t)
 (setq dired-hide-details-hide-symlink-targets nil)
-(add-hook 'dired-mode-hook 'dired-hide-details-mode)
+(add-hook 'dired-mode-hook #'dired-hide-details-mode)
+(setq dired-listing-switches "-l")
+(eval-after-load 'dired
+  (lambda ()
+    (define-key dired-mode-map (kbd "C-x M-o") #'my/dired-toggle-dotfiles)))
 
 ;;;; Which-Key
 (setq which-key-idle-delay 0.5)
