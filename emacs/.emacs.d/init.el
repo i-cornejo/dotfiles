@@ -56,6 +56,9 @@
 
 ;;; Global Bindings
 (global-set-key [f2] #'my/vterm-toggle)
+(global-set-key (kbd "C-s") isearch-forward-regexp)
+(global-set-key (kbd "C-r") isearch-backward-regexp)
+(global-set-key (kbd "C-x C-b") #'ibuffer)
 (global-set-key (kbd "C-c @ @") #'outline-minor-mode)
 (global-set-key (kbd "M-z") #'zap-up-to-char)
 (global-set-key (kbd "C-x l") #'count-words)
