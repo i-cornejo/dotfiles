@@ -55,6 +55,11 @@
     (setq dired-actual-switches "-lA"))
   (revert-buffer))
 
+(defun my/lookup-password (&rest keys)
+  (let ((result (apply #'auth-source-search keys)))
+    (if result
+        (funcall (plist-get (car result) :secret)))))
+
 ;;; Global Bindings
 (global-set-key [f2] #'my/vterm-toggle)
 (global-set-key (kbd "C-s") #'isearch-forward-regexp)
