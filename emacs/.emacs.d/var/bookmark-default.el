@@ -1,8 +1,13 @@
-;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*-
+;;;; Emacs Bookmark Format Version 1;;;; -*- coding: utf-8-emacs; mode: lisp-data -*-
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("blocks"
+(("science"
+ (filename . "~/org/life/science.org")
+ (front-context-string . "* Digestión\n** O")
+ (rear-context-string)
+ (position . 1))
+("blocks"
  (filename . "~/.i3/i3blocks.conf")
  (front-context-string . "# Global propert")
  (rear-context-string)
@@ -33,10 +38,10 @@
  (rear-context-string . "50 Dec 24 10:11 ")
  (position . 213))
 ("org-refile-last-stored"
- (filename . "~/org/gtd/gtd.org")
- (front-context-string . "** TODO Dinero v")
- (rear-context-string . "2021-01-14 Thu>\n")
- (position . 177))
+ (filename . "~/org/gtd/projects.org")
+ (front-context-string . "** Emacs [0/8]\n*")
+ (rear-context-string . "O Image Archive\n")
+ (position . 522))
 ("fun"
  (filename . "~/org/lists/fun.org")
  (front-context-string . "* Myself\n** Read")
@@ -74,7 +79,7 @@
  (position . 1))
 ("org-capture-last-stored"
  (filename . "~/org/gtd/gtd.org")
- (front-context-string . "** TODO Checar r")
- (rear-context-string . "2021-03-24 Wed>\n")
- (position . 188))
+ (front-context-string . "** TODO Establec")
+ (rear-context-string . "2021-08-27 Fri>\n")
+ (position . 463))
 )
