@@ -1,7 +1,7 @@
 [general]
 accounts = Ciencias, Personal
 maxsyncaccounts = 2
-pythonfile = ~/.offlineimap.py
+pythonfile = ~/.offlineimap/offlineimap.py
 
 [Account Ciencias]
 localrepository = ciencias
