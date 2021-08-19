@@ -105,7 +105,6 @@
 ;;; Essentials
 ;;;; Security
 (setq auth-sources '("~/.authinfo.gpg"))
-(setenv "GPG_AGENT_INFO" nil)
 
 ;;;; Dired
 (setq dired-dwim-target t)

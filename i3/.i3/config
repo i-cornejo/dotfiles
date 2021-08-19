@@ -26,7 +26,7 @@ exec --no-startup-id emacsclient -nca ""
 exec --no-startup-id ~/.fehbg
 exec --no-startup-id dunst
 exec --no-startup-id nm-applet
-exec --no-startup-id megasync
+exec --no-startup-id dropbox
 exec --no-startup-id lxqt-policykit-agent
 exec --no-startup-id udiskie
 exec --no-startup-id picom --no-fading-openclose --experimental-backend
