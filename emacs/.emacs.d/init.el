@@ -88,6 +88,7 @@
 			   (org-agenda-files . (:level . 1))))
 (setq org-log-into-drawer t)
 (setq org-return-follows-link t)
+
 ;;;; Visual
 (add-hook 'org-mode-hook 'visual-line-mode)
 (setq org-adapt-indentation nil)
@@ -108,7 +109,7 @@
          "* TODO %?\n")
 	("i" "Inbox" entry (file+headline "gtd/inbox.org" "Inbox")
 	 "* TODO %?\n")
-	("j" "Journal" plain (file+olp+datetree "life/journal.org")
+	("j" "Journal" plain (file+olp+datetree "life/journal.org.gpg")
 	 "%?")))
 
 ;;; Essentials
