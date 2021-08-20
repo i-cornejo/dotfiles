@@ -31,11 +31,20 @@
 (setq transient-values-file		(concat user-etc-dir "transient/values.el"))
 (setq url-cache-directory		(concat user-var-dir "url/cache/"))
 (setq url-configuration-directory	(concat user-var-dir "url/configuration/"))
+(load custom-file t)
 
 ;;; Package Configuration
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/") t)
-(load custom-file t)
+(setq
+ package-selected-packages
+ '(magit
+   speed-type
+   which-key
+   marginalia
+   pdf-tools
+   vterm
+   ))
 (package-install-selected-packages)
 
 ;;; Functions
