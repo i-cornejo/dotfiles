@@ -6,7 +6,7 @@ emacs/.emacs.d/eln-cache
 emacs/.emacs.d/elpa
 emacs/.emacs.d/etc/*
 emacs/.emacs.d/var/*
-!emacs/.emacs.d/etc/custom.el
+!emacs/.emacs.d/etc/.gitkeep
 !emacs/.emacs.d/var/bookmark-default.el
 !emacs/.emacs.d/var/org-roam.db
 
