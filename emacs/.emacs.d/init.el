@@ -112,7 +112,9 @@
 	("d" "Ideas" entry (file+headline "gtd/inbox.org" "Ideas")
 	 "* %?\n")
 	("j" "Journal" plain (file+olp+datetree "life/journal.org.gpg")
-	 "%?")))
+	 "%?")
+	("u" "Quotes" plain (file "roam/quotes.txt")
+	 "%?\n%")))
 
 ;;; Essentials
 ;;;; Security
@@ -282,9 +284,9 @@
 
 ;;;; Etc
 (setq use-short-answers t)
-(setq initial-scratch-message nil)
 (setq find-file-suppress-same-file-warnings t)
 (setq native-comp-async-report-warnings-errors 'silent)
 (setq ring-bell-function 'ignore)
 (setq disabled-command-function nil)
-(setq auth-source-save-behavior 'never)
+(setq initial-scratch-message
+      (replace-regexp-in-string "^" ";; " (cookie "~/org/roam/quotes.txt")))
