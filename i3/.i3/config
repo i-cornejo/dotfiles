@@ -46,6 +46,7 @@ exec --no-startup-id xidlehook \
 bindsym $mod+space exec --no-startup-id i3-dmenu-desktop
 bindsym $mod+e exec --no-startup-id pcmanfm
 bindsym $mod+m exec --no-startup-id emacsclient -nca ""
+bindsym $mod+Shift+Return exec --no-startup-id alacritty
 bindsym $mod+Return exec --no-startup-id \
 			 emacsclient -ca "" -e '(vterm)'
 
