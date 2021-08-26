@@ -109,12 +109,15 @@
          "* TODO %?\n")
 	("i" "Inbox" entry (file+headline "gtd/inbox.org" "Inbox")
 	 "* TODO %?\n")
+	("d" "Ideas" entry (file+headline "gtd/inbox.org" "Ideas")
+	 "* %?\n")
 	("j" "Journal" plain (file+olp+datetree "life/journal.org.gpg")
 	 "%?")))
 
 ;;; Essentials
 ;;;; Security
 (setq auth-sources '("~/.authinfo.gpg"))
+(setq auth-source-save-behavior 'never)
 
 ;;;; Dired
 (setq dired-dwim-target t)
@@ -146,10 +149,10 @@
 
 (require 'mu4e)
 (setq mu4e-get-mail-command "offlineimap")
+(setq mu4e-attachment-dir "~/Downloads")
 (setq mu4e-update-interval 600)
 (setq mu4e-change-filenames-when-moving t)
 (setq mu4e-sent-messages-behavior 'delete)
-(setq mu4e-index-cleanup nil)
 (setq message-kill-buffer-on-exit t)
 (add-to-list 'mu4e-bookmarks
 	     '("m:/ciencias/INBOX or m:/personal/INBOX" "All Inboxes" ?i))
